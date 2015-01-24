@@ -23,9 +23,26 @@
     return self;
 }
 
+- (void)loadJSON {
+    NSString *urlString = @"https://s3.amazonaws.com/lab.nearpod.com/rachel/episodecalendar-data.json";
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    NSData *jsonData = [NSURLConnection sendSynchronousRequest:req returningResponse:0 error:nil];
+    
+    if (jsonData) {
+        NSDictionary *objs = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+        for (NSDictionary *obj in objs) {
+            NSLog(@"%@", obj);
+        }
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self loadJSON];
+    
     self.tvShows = [NSArray arrayWithObjects:@"Revenge", @"24", @"Parenthood", @"House", @"The Bachelor", @"New Girl", @"Grey's Anatomy", @"Scrubs", @"Jimmy Kimmel Live", @"Survivor", nil];
     // Do any additional setup after loading the view.
 }
