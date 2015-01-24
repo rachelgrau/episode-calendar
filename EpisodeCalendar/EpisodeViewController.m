@@ -7,6 +7,7 @@
 //
 
 #import "EpisodeViewController.h"
+#import "Episode.h"
 
 @interface EpisodeViewController ()
 @property NSArray *tvShows;
@@ -24,16 +25,9 @@
 }
 
 - (void)loadJSON {
-    NSString *urlString = @"https://s3.amazonaws.com/lab.nearpod.com/rachel/episodecalendar-data.json";
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    NSData *jsonData = [NSURLConnection sendSynchronousRequest:req returningResponse:0 error:nil];
-    
-    if (jsonData) {
-        NSDictionary *objs = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-        for (NSDictionary *obj in objs) {
-            NSLog(@"%@", obj);
-        }
+    NSArray *objs = [Episode fetchAll];
+    for (Episode *ep in objs) {
+        NSLog(@"%@", ep);
     }
 }
 
