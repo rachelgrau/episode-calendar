@@ -1,21 +1,21 @@
 //
-//  EpisodeViewController.m
+//  EpisodeListViewController.m
 //  EpisodeCalendar
 //
-//  Created by Rachel on 23/01/2015.
+//  Created by Rachel on 25/01/2015.
 //  Copyright (c) 2015 Rachel. All rights reserved.
 //
 
-#import "EpisodeViewController.h"
+#import "EpisodeListViewController.h"
 #import "Episode.h"
 
-@interface EpisodeViewController ()
+@interface EpisodeListViewController ()
 @property NSArray *tvShows;
 @property NSDictionary *tvShowsDict;
 @property NSMutableArray *dates;
 @end
 
-@implementation EpisodeViewController
+@implementation EpisodeListViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,7 +52,7 @@
     /* Get components so we can get day in int form */
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:dateToShow];
-
+    
     /* Make sure we display "1st" "2nd" "3rd" and "nth" for all n > 3 */
     if ([components day] == 1) {
         [monthAndDay setDateFormat:@"MMM. d'st' '('EEE')'"];
@@ -98,14 +98,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
