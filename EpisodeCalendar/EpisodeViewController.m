@@ -11,6 +11,8 @@
 
 @interface EpisodeViewController ()
 @property NSArray *tvShows;
+@property NSDictionary *tvShowsDict;
+@property NSMutableArray *dates;
 @end
 
 @implementation EpisodeViewController
@@ -24,27 +26,53 @@
     return self;
 }
 
-- (void)loadJSON {
-    NSArray *objs = [Episode fetchAll];
-    for (Episode *ep in objs) {
-        NSLog(@"%@", ep);
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self loadJSON];
+    self.tvShows = [Episode fetchAll];
+    self.dates = [[NSMutableArray alloc] init];
+    self.tvShowsDict = [Episode fetchAllByDate:self.dates];
     
-    self.tvShows = [NSArray arrayWithObjects:@"Revenge", @"24", @"Parenthood", @"House", @"The Bachelor", @"New Girl", @"Grey's Anatomy", @"Scrubs", @"Jimmy Kimmel Live", @"Survivor", nil];
     // Do any additional setup after loading the view.
+}
+
+/* Datasource method */
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [self.dates count];
+}
+
+/* Datasource method, returns the title of the section (date in string form) */
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSDate *dateToShow = [self.dates objectAtIndex:section];
+    NSDateFormatter *monthAndDay = [[NSDateFormatter alloc] init];
+    
+    /* Get components so we can get day in int form */
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:dateToShow];
+
+    /* Make sure we display "1st" "2nd" "3rd" and "nth" for all n > 3 */
+    if ([components day] == 1) {
+        [monthAndDay setDateFormat:@"MMM. d'st' '('EEE')'"];
+    } else if ([components day] == 2) {
+        [monthAndDay setDateFormat:@"MMM. d'nd' '('EEE')'"];
+    } else if ([components day] == 3) {
+        [monthAndDay setDateFormat:@"MMM. d'rd' '('EEE')'"];
+    } else {
+        [monthAndDay setDateFormat:@"MMM. d'th' '('EEE')'"];
+    }
+    
+    return [monthAndDay stringFromDate:dateToShow];
 }
 
 /* Datasource method */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.tvShows count];
+    NSDate *date = [self.dates objectAtIndex:section];
+    NSArray *epsWithThisDate = [self.tvShowsDict objectForKey:date];
+    return [epsWithThisDate count];
 }
 
 /* Datasource method */
@@ -56,7 +84,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
     
-    cell.textLabel.text = [self.tvShows objectAtIndex:indexPath.row];
+    NSDate *date = [self.dates objectAtIndex:[indexPath section]];
+    NSArray *epsInSection = [self.tvShowsDict objectForKey:date];
+    Episode *ep = [epsInSection objectAtIndex:[indexPath row]];
+    cell.textLabel.text = ep.show;
     return cell;
 }
 

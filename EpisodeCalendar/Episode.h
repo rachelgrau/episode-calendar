@@ -18,5 +18,7 @@
 @property int number; /* Episode number */
 
 + (NSArray *)fetchAll;
++ (NSDictionary *) fetchAllByDate:(NSMutableArray *)resultDates;
++ (NSString *)stringFromDate:(NSDate *)date;
 @end
 
