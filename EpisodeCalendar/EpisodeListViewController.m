@@ -15,6 +15,7 @@
 @property NSDictionary *tvShowsDict;
 @property NSMutableArray *dates;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property UINavigationController *nvc;
 @end
 
 @implementation EpisodeListViewController
@@ -35,6 +36,7 @@
     self.tvShows = [Episode fetchAll];
     self.dates = [[NSMutableArray alloc] init];
     self.tvShowsDict = [Episode fetchAllByDate:self.dates];
+    self.nvc = [self navigationController];
     
     // Do any additional setup after loading the view.
 }
@@ -77,6 +79,8 @@
     return [epsWithThisDate count];
 }
 
+/* Given an NSIndexPath for our table view, return the Episode that
+    exists at that index path in the table. */
 - (Episode *) getEpisodeFromIndexPath:(NSIndexPath *)indexPath {
     NSDate *date = [self.dates objectAtIndex:[indexPath section]];
     NSArray *epsInSection = [self.tvShowsDict objectForKey:date];
@@ -102,21 +106,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Episode *ep = [self getEpisodeFromIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"toEpisodeDetail" sender:ep];
-}
-
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
+ /* Prepare information about selected cell to send to EpisodeViewController */
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
  {
      if ([segue.identifier isEqualToString:@"toEpisodeDetail"]) {
          EpisodeViewController *destViewController = segue.destinationViewController;
-         Episode *ep = sender;
-         destViewController.name = ep.name;
-         destViewController.show = ep.show;
+         /* Get the selected episode based on index path */
+         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+         Episode *ep = [self getEpisodeFromIndexPath:indexPath];
+         /* Set properties of EpisodeViewController to display info about selected episode */
+         [destViewController setName:ep.name];
+         [destViewController setShow:ep.show];
      }
  }
  
