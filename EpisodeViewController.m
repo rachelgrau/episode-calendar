@@ -9,10 +9,14 @@
 #import "EpisodeViewController.h"
 
 @interface EpisodeViewController ()
-
+@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *showLabel;
 @end
 
 @implementation EpisodeViewController
+
+@synthesize name;
+@synthesize show;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +30,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.nameLabel.text = self.name;
+    self.showLabel.text = self.show;
 }
 
 - (void)didReceiveMemoryWarning

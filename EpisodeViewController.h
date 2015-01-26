@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface EpisodeViewController : UIViewController
-
+@property NSString *name;
+@property NSString *show;
 @end

@@ -8,11 +8,13 @@
 
 #import "EpisodeListViewController.h"
 #import "Episode.h"
+#import "EpisodeViewController.h"
 
 @interface EpisodeListViewController ()
 @property NSArray *tvShows;
 @property NSDictionary *tvShowsDict;
 @property NSMutableArray *dates;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end
 
 @implementation EpisodeListViewController
@@ -75,6 +77,12 @@
     return [epsWithThisDate count];
 }
 
+- (Episode *) getEpisodeFromIndexPath:(NSIndexPath *)indexPath {
+    NSDate *date = [self.dates objectAtIndex:[indexPath section]];
+    NSArray *epsInSection = [self.tvShowsDict objectForKey:date];
+    return [epsInSection objectAtIndex:[indexPath row]];
+}
+
 /* Datasource method */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -84,9 +92,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
     
-    NSDate *date = [self.dates objectAtIndex:[indexPath section]];
-    NSArray *epsInSection = [self.tvShowsDict objectForKey:date];
-    Episode *ep = [epsInSection objectAtIndex:[indexPath row]];
+    Episode *ep = [self getEpisodeFromIndexPath:indexPath];
     cell.textLabel.text = ep.show;
     return cell;
 }
@@ -97,15 +103,22 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Episode *ep = [self getEpisodeFromIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"toEpisodeDetail" sender:ep];
+}
+
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
  {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+     if ([segue.identifier isEqualToString:@"toEpisodeDetail"]) {
+         EpisodeViewController *destViewController = segue.destinationViewController;
+         Episode *ep = sender;
+         destViewController.name = ep.name;
+         destViewController.show = ep.show;
+     }
  }
- */
+ 
 
 @end
