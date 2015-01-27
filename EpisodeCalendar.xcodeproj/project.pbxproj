@@ -22,6 +22,9 @@
 		CC35CA161A7322D100627EA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC35C9F51A7322D100627EA3 /* UIKit.framework */; };
 		CC35CA1E1A7322D100627EA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC35CA1C1A7322D100627EA3 /* InfoPlist.strings */; };
 		CC35CA201A7322D100627EA3 /* EpisodeCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC35CA1F1A7322D100627EA3 /* EpisodeCalendarTests.m */; };
+		CC63AE1F1A7785A000F9B1AD /* EpisodeCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC63AE1E1A7785A000F9B1AD /* EpisodeCalendarViewController.m */; };
+		CC63AE231A7787EC00F9B1AD /* leftArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CC63AE221A7787EC00F9B1AD /* leftArrow.png */; };
+		CC63AE251A7787F600F9B1AD /* rightArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CC63AE241A7787F600F9B1AD /* rightArrow.png */; };
 		CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */; };
 		CCAFF5DF1A7586B60093936D /* EpisodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DE1A7586B60093936D /* EpisodeViewController.m */; };
 		CCC486271A74312800C6CEC2 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC486261A74312800C6CEC2 /* Episode.m */; };
@@ -58,6 +61,10 @@
 		CC35CA1B1A7322D100627EA3 /* EpisodeCalendarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EpisodeCalendarTests-Info.plist"; sourceTree = "<group>"; };
 		CC35CA1D1A7322D100627EA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CC35CA1F1A7322D100627EA3 /* EpisodeCalendarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpisodeCalendarTests.m; sourceTree = "<group>"; };
+		CC63AE1D1A7785A000F9B1AD /* EpisodeCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeCalendarViewController.h; sourceTree = "<group>"; };
+		CC63AE1E1A7785A000F9B1AD /* EpisodeCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeCalendarViewController.m; sourceTree = "<group>"; };
+		CC63AE221A7787EC00F9B1AD /* leftArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftArrow.png; sourceTree = "<group>"; };
+		CC63AE241A7787F600F9B1AD /* rightArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightArrow.png; sourceTree = "<group>"; };
 		CCAFF5DA1A7585C70093936D /* EpisodeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeListViewController.h; sourceTree = "<group>"; };
 		CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeListViewController.m; sourceTree = "<group>"; };
 		CCAFF5DD1A7586B60093936D /* EpisodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeViewController.h; path = ../EpisodeViewController.h; sourceTree = "<group>"; };
@@ -123,13 +130,14 @@
 		CC35C9F71A7322D100627EA3 /* EpisodeCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				CC63AE261A7787FD00F9B1AD /* images */,
+				CC63AE211A7785B800F9B1AD /* Episode Calendar (ipad) */,
+				CC63AE201A7785A800F9B1AD /* Episode List (phone) */,
 				CCAFF5DD1A7586B60093936D /* EpisodeViewController.h */,
 				CCAFF5DE1A7586B60093936D /* EpisodeViewController.m */,
 				CC35CA001A7322D100627EA3 /* AppDelegate.h */,
 				CC35CA011A7322D100627EA3 /* AppDelegate.m */,
 				CC35CA031A7322D100627EA3 /* Main_iPhone.storyboard */,
-				CCAFF5DA1A7585C70093936D /* EpisodeListViewController.h */,
-				CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */,
 				CCC486251A74312800C6CEC2 /* Episode.h */,
 				CCC486261A74312800C6CEC2 /* Episode.m */,
 				CC35CA061A7322D100627EA3 /* Main_iPad.storyboard */,
@@ -168,6 +176,33 @@
 				CC35CA1C1A7322D100627EA3 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CC63AE201A7785A800F9B1AD /* Episode List (phone) */ = {
+			isa = PBXGroup;
+			children = (
+				CCAFF5DA1A7585C70093936D /* EpisodeListViewController.h */,
+				CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */,
+			);
+			name = "Episode List (phone)";
+			sourceTree = "<group>";
+		};
+		CC63AE211A7785B800F9B1AD /* Episode Calendar (ipad) */ = {
+			isa = PBXGroup;
+			children = (
+				CC63AE1D1A7785A000F9B1AD /* EpisodeCalendarViewController.h */,
+				CC63AE1E1A7785A000F9B1AD /* EpisodeCalendarViewController.m */,
+			);
+			name = "Episode Calendar (ipad)";
+			sourceTree = "<group>";
+		};
+		CC63AE261A7787FD00F9B1AD /* images */ = {
+			isa = PBXGroup;
+			children = (
+				CC63AE221A7787EC00F9B1AD /* leftArrow.png */,
+				CC63AE241A7787F600F9B1AD /* rightArrow.png */,
+			);
+			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,6 +282,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC35CA081A7322D100627EA3 /* Main_iPad.storyboard in Resources */,
+				CC63AE251A7787F600F9B1AD /* rightArrow.png in Resources */,
+				CC63AE231A7787EC00F9B1AD /* leftArrow.png in Resources */,
 				CC35CA0D1A7322D100627EA3 /* Images.xcassets in Resources */,
 				CC35CA051A7322D100627EA3 /* Main_iPhone.storyboard in Resources */,
 				CC35C9FC1A7322D100627EA3 /* InfoPlist.strings in Resources */,
@@ -272,6 +309,7 @@
 				CC35CA021A7322D100627EA3 /* AppDelegate.m in Sources */,
 				CCAFF5DF1A7586B60093936D /* EpisodeViewController.m in Sources */,
 				CCC486271A74312800C6CEC2 /* Episode.m in Sources */,
+				CC63AE1F1A7785A000F9B1AD /* EpisodeCalendarViewController.m in Sources */,
 				CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */,
 				CC35C9FE1A7322D100627EA3 /* main.m in Sources */,
 			);
