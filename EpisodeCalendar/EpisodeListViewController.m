@@ -41,6 +41,10 @@
     // Do any additional setup after loading the view.
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
 /* Datasource method */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -98,6 +102,7 @@
     
     Episode *ep = [self getEpisodeFromIndexPath:indexPath];
     cell.textLabel.text = ep.show;
+    cell.detailTextLabel.text = ep.name;
     return cell;
 }
 
@@ -118,6 +123,7 @@
          /* Set properties of EpisodeViewController to display info about selected episode */
          [destViewController setName:ep.name];
          [destViewController setShow:ep.show];
+         [destViewController setSeason:ep.season];
      }
  }
  

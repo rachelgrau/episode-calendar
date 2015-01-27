@@ -11,4 +11,5 @@
 @interface EpisodeViewController : UIViewController
 @property NSString *name;
 @property NSString *show;
+@property int season;
 @end

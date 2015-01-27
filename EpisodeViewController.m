@@ -17,6 +17,7 @@
 
 @synthesize name;
 @synthesize show;
+@synthesize season;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,7 +33,9 @@
     [super viewDidLoad];
     
     self.nameLabel.text = self.name;
-    self.showLabel.text = self.show;
+    self.showLabel.text = [NSString stringWithFormat:@"%@ (Season %d)", self.show, self.season];
+    [self.showLabel setFont:[UIFont systemFontOfSize:22]];
+    [self.nameLabel setFont:[UIFont systemFontOfSize:16]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,16 +43,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
