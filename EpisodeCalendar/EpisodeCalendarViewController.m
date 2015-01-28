@@ -27,6 +27,16 @@
     return self;
 }
 
+/* Returns true if the two given dates have the same month, and false otherwise. */
+- (BOOL)haveSameMonth:(NSDate *)date1 date2:(NSDate *)date2 {
+     NSDateComponents *comps1 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date1];
+    
+    NSDateComponents *comps2 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date2];
+    
+    if ([comps1 month] == [comps2 month]) return true;
+    else return false;
+}
+
 /* Given a number of months (probably 1 or -1), returns an NSDate * with adding that # of months from the date currently being displayed.
    For example, if we are currently displaying January 22, 2015, and you call getDate:-1, will return an NSDate * with the date December 22, 2014.*/
 - (NSDate *)getDate:(int)monthsAway {
@@ -169,6 +179,13 @@
     
     NSDate *dateOnCell = [self getDateForIndexPath:indexPath];
     NSString *dateLabelString = [EpisodeCalendarViewController getDateString:dateOnCell];
+    
+    /* If not from this month, gray out text */
+    if (![self haveSameMonth:dateOnCell date2:self.dateToDisplay]) {
+        cell.dateLabel.textColor = [UIColor grayColor];
+    } else {
+        cell.dateLabel.textColor = [UIColor blackColor];
+    }
     cell.dateLabel.text = dateLabelString;
     return cell;
 }
