@@ -7,7 +7,7 @@
 //
 
 #import "EpisodeCalendarViewController.h"
-#import "CalendarCell.h"
+#import "CalendarDayCell.h"
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -58,21 +58,22 @@
     }
     
     /* Set up month label */
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMMM"];
-    self.monthLabel.text = [dateFormatter stringFromDate:self.dateToDisplay];
+    NSDateFormatter *monthFormatter = [[NSDateFormatter alloc] init];
+    [monthFormatter setDateFormat:@"MMMM"];
+    self.monthLabel.text = [monthFormatter stringFromDate:self.dateToDisplay];
     self.monthLabel.textAlignment = NSTextAlignmentCenter;
     [self.monthLabel setFont:[UIFont systemFontOfSize:22]];
     
     /* Set up year label */
-    [dateFormatter setDateFormat:@"YYYY"];
-    self.yearLabel.text = [dateFormatter stringFromDate:self.dateToDisplay];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.dateToDisplay];
+    NSString *yearStr = [NSString stringWithFormat:@"%ld", [components year]];
+    self.yearLabel.text = yearStr;
     self.yearLabel.textAlignment = NSTextAlignmentCenter;
     [self.yearLabel setFont:[UIFont systemFontOfSize:16]];
     self.yearLabel.textColor = [UIColor grayColor];
     
     /* Set up collection view cells */
-    [self.collectionView registerClass:[CalendarCell class] forCellWithReuseIdentifier:@"EpisodeCollectionCell"];
+    //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CalendarCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,6 +87,46 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
+
+/* Given an indexPath of the collection view, return which date should be displayed at that indexPath. */
+- (NSDate *)getDateForIndexPath:(NSIndexPath *)indexPath {
+    NSInteger row = [indexPath row];
+    NSLog(@"%ld\n", row);
+    
+    NSDate *ret = self.dateToDisplay;
+    NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
+    
+    NSInteger weekdayOfFirst = [comps weekday] + 1;
+    [comps setDay:[indexPath row] - weekdayOfFirst + 2];
+    ret = [cal dateFromComponents:comps];
+    /*
+     get weekdayOfFirstDay (if jan 1 is on a thurs, get 5)
+     get dateToDisplay = row - weekdayOfFirstDay + 2
+     */
+    
+    return ret;
+}
+
+/* Given a date, return a string in the form "MMM. d'st'". For example, "Jan. 28th," "Feb. 1st" or "Mar. 3rd" */
++ (NSString *)getDateString:(NSDate *)date {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    /* Get components so we can get day in int form */
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+    
+    /* Make sure we display "1st" "2nd" "3rd" and "nth" for all n > 3 */
+    if ([components day] == 1) {
+        [dateFormat setDateFormat:@"MMM. d'st' '"];
+    } else if ([components day] == 2) {
+        [dateFormat setDateFormat:@"MMM. d'nd'"];
+    } else if ([components day] == 3) {
+        [dateFormat setDateFormat:@"MMM. d'rd'"];
+    } else {
+        [dateFormat setDateFormat:@"MMM. d'th'"];
+    }
+    return [dateFormat stringFromDate:date];
 }
 
 #pragma mark - UICollectionView Datasource
@@ -119,16 +160,33 @@
     return 1;
 }
 
+
 /* Return cell that should go at given indexpath */
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *episodeCollectionIdentifier = @"EpisodeCollectionCell";
-    CalendarCell *cell = [cv dequeueReusableCellWithReuseIdentifier:episodeCollectionIdentifier forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = [[CalendarCell alloc] init];
-    }
-    cell.dayLabel.text = @"Hii";
+    CalendarDayCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+    
+    NSDate *dateOnCell = [self getDateForIndexPath:indexPath];
+    NSString *dateLabelString = [EpisodeCalendarViewController getDateString:dateOnCell];
+    cell.dateLabel.text = dateLabelString;
     return cell;
+}
+
+#pragma mark – UICollectionViewDelegateFlowLayout
+
+// 1
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGSize retval = CGSizeMake(85, 85);
+    return retval;
+}
+
+// 3
+- (UIEdgeInsets)collectionView:
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(5, 5, 5, 5);
 }
 
 

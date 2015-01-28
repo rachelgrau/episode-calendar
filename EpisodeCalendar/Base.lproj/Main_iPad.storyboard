@@ -44,44 +44,45 @@
                                     <outletCollection property="gestureRecognizers" destination="lSZ-ER-XSP" appends="YES" id="HgY-zj-uI0"/>
                                 </connections>
                             </imageView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="a7a-M0-kpr">
-                                <rect key="frame" x="20" y="133" width="728" height="615"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EhG-br-r9k">
+                                <rect key="frame" x="20" y="136" width="721" height="614"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KcQ-cb-Dma">
-                                    <size key="itemSize" width="95" height="89"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9T9-EG-vZp">
+                                    <size key="itemSize" width="160" height="143"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EpisodeCollectionCell" id="1j6-aR-JrX" customClass="CalendarCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="95" height="89"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CalendarCell" id="81O-4S-g4u" customClass="CalendarDayCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="143"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="95" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="143"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="hihihhi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rgb-P3-pt5">
-                                                    <rect key="frame" x="13" y="27" width="69" height="35"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iks-zS-wN7">
+                                                    <rect key="frame" x="0.0" y="8" width="160" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="iks-zS-wN7" firstAttribute="top" secondItem="81O-4S-g4u" secondAttribute="top" constant="8" id="oeN-uv-cVY"/>
+                                        </constraints>
                                         <connections>
-                                            <outlet property="dayLabel" destination="Rgb-P3-pt5" id="zvK-59-GD6"/>
+                                            <outlet property="dateLabel" destination="iks-zS-wN7" id="NRd-xe-ziu"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="rDz-jZ-RQo"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="JhM-vQ-4i2"/>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="yud-dv-0AX"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="cK2-Al-AUb"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -91,14 +92,11 @@
                             <constraint firstItem="MtM-hx-T16" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="9p1-Xg-jxG"/>
                             <constraint firstAttribute="centerX" secondItem="U3V-rn-zM0" secondAttribute="centerX" id="aO2-LN-WHz"/>
                             <constraint firstAttribute="centerX" secondItem="4hV-pr-n3C" secondAttribute="centerX" id="bOH-t9-rKB"/>
-                            <constraint firstItem="a7a-M0-kpr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="bVz-FZ-uDr"/>
-                            <constraint firstAttribute="trailing" secondItem="a7a-M0-kpr" secondAttribute="trailing" constant="20" id="g58-uO-cag"/>
-                            <constraint firstItem="a7a-M0-kpr" firstAttribute="top" secondItem="b9P-4P-bI5" secondAttribute="bottom" constant="113" id="s7a-NG-QmS"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
-                        <outlet property="collectionView" destination="a7a-M0-kpr" id="H8f-ci-nFX"/>
+                        <outlet property="collectionView" destination="EhG-br-r9k" id="mES-hd-cDW"/>
                         <outlet property="monthLabel" destination="4hV-pr-n3C" id="vf0-Q6-JXp"/>
                         <outlet property="yearLabel" destination="U3V-rn-zM0" id="bLq-Ny-wy0"/>
                     </connections>
@@ -115,7 +113,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-668" y="-880"/>
+            <point key="canvasLocation" x="-736" y="-846"/>
         </scene>
     </scenes>
     <resources>

@@ -25,10 +25,10 @@
 		CC63AE1F1A7785A000F9B1AD /* EpisodeCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC63AE1E1A7785A000F9B1AD /* EpisodeCalendarViewController.m */; };
 		CC63AE231A7787EC00F9B1AD /* leftArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CC63AE221A7787EC00F9B1AD /* leftArrow.png */; };
 		CC63AE251A7787F600F9B1AD /* rightArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CC63AE241A7787F600F9B1AD /* rightArrow.png */; };
+		CC77C8521A79760600FF5575 /* CalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC77C8511A79760600FF5575 /* CalendarDayCell.m */; };
 		CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */; };
 		CCAFF5DF1A7586B60093936D /* EpisodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DE1A7586B60093936D /* EpisodeViewController.m */; };
 		CCC486271A74312800C6CEC2 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC486261A74312800C6CEC2 /* Episode.m */; };
-		CCD67F111A78ACD40057CD3D /* CalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD67F101A78ACD40057CD3D /* CalendarCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,14 +66,14 @@
 		CC63AE1E1A7785A000F9B1AD /* EpisodeCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeCalendarViewController.m; sourceTree = "<group>"; };
 		CC63AE221A7787EC00F9B1AD /* leftArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftArrow.png; sourceTree = "<group>"; };
 		CC63AE241A7787F600F9B1AD /* rightArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightArrow.png; sourceTree = "<group>"; };
+		CC77C8501A79760600FF5575 /* CalendarDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayCell.h; sourceTree = "<group>"; };
+		CC77C8511A79760600FF5575 /* CalendarDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayCell.m; sourceTree = "<group>"; };
 		CCAFF5DA1A7585C70093936D /* EpisodeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeListViewController.h; sourceTree = "<group>"; };
 		CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeListViewController.m; sourceTree = "<group>"; };
 		CCAFF5DD1A7586B60093936D /* EpisodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeViewController.h; path = ../EpisodeViewController.h; sourceTree = "<group>"; };
 		CCAFF5DE1A7586B60093936D /* EpisodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeViewController.m; path = ../EpisodeViewController.m; sourceTree = "<group>"; };
 		CCC486251A74312800C6CEC2 /* Episode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Episode.h; sourceTree = "<group>"; };
 		CCC486261A74312800C6CEC2 /* Episode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Episode.m; sourceTree = "<group>"; };
-		CCD67F0F1A78ACD40057CD3D /* CalendarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarCell.h; sourceTree = "<group>"; };
-		CCD67F101A78ACD40057CD3D /* CalendarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,8 +193,8 @@
 		CC63AE211A7785B800F9B1AD /* Episode Calendar (ipad) */ = {
 			isa = PBXGroup;
 			children = (
-				CCD67F0F1A78ACD40057CD3D /* CalendarCell.h */,
-				CCD67F101A78ACD40057CD3D /* CalendarCell.m */,
+				CC77C8501A79760600FF5575 /* CalendarDayCell.h */,
+				CC77C8511A79760600FF5575 /* CalendarDayCell.m */,
 				CC63AE1D1A7785A000F9B1AD /* EpisodeCalendarViewController.h */,
 				CC63AE1E1A7785A000F9B1AD /* EpisodeCalendarViewController.m */,
 			);
@@ -313,8 +313,8 @@
 				CC35CA0B1A7322D100627EA3 /* ViewController.m in Sources */,
 				CC35CA021A7322D100627EA3 /* AppDelegate.m in Sources */,
 				CCAFF5DF1A7586B60093936D /* EpisodeViewController.m in Sources */,
-				CCD67F111A78ACD40057CD3D /* CalendarCell.m in Sources */,
 				CCC486271A74312800C6CEC2 /* Episode.m in Sources */,
+				CC77C8521A79760600FF5575 /* CalendarDayCell.m in Sources */,
 				CC63AE1F1A7785A000F9B1AD /* EpisodeCalendarViewController.m in Sources */,
 				CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */,
 				CC35C9FE1A7322D100627EA3 /* main.m in Sources */,

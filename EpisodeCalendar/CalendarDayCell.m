@@ -1,14 +1,14 @@
 //
-//  CalendarCell.m
+//  CalendarDayCell.m
 //  EpisodeCalendar
 //
-//  Created by Rachel on 1/27/15.
+//  Created by Rachel on 1/28/15.
 //  Copyright (c) 2015 Rachel. All rights reserved.
 //
 
-#import "CalendarCell.h"
+#import "CalendarDayCell.h"
 
-@implementation CalendarCell
+@implementation CalendarDayCell
 
 - (id)initWithFrame:(CGRect)frame
 {
