@@ -6,3 +6,4 @@ TO DO: iphone version
 - Asynchronous loading
 - Only show up to certain past date? 
 - Make UI prettier (especially on EpisodeViewController)
+  - Make text wrap if too long
