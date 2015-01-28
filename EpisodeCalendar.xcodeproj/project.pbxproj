@@ -28,6 +28,7 @@
 		CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */; };
 		CCAFF5DF1A7586B60093936D /* EpisodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DE1A7586B60093936D /* EpisodeViewController.m */; };
 		CCC486271A74312800C6CEC2 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC486261A74312800C6CEC2 /* Episode.m */; };
+		CCD67F111A78ACD40057CD3D /* CalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD67F101A78ACD40057CD3D /* CalendarCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,8 @@
 		CCAFF5DE1A7586B60093936D /* EpisodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeViewController.m; path = ../EpisodeViewController.m; sourceTree = "<group>"; };
 		CCC486251A74312800C6CEC2 /* Episode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Episode.h; sourceTree = "<group>"; };
 		CCC486261A74312800C6CEC2 /* Episode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Episode.m; sourceTree = "<group>"; };
+		CCD67F0F1A78ACD40057CD3D /* CalendarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarCell.h; sourceTree = "<group>"; };
+		CCD67F101A78ACD40057CD3D /* CalendarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +193,8 @@
 		CC63AE211A7785B800F9B1AD /* Episode Calendar (ipad) */ = {
 			isa = PBXGroup;
 			children = (
+				CCD67F0F1A78ACD40057CD3D /* CalendarCell.h */,
+				CCD67F101A78ACD40057CD3D /* CalendarCell.m */,
 				CC63AE1D1A7785A000F9B1AD /* EpisodeCalendarViewController.h */,
 				CC63AE1E1A7785A000F9B1AD /* EpisodeCalendarViewController.m */,
 			);
@@ -308,6 +313,7 @@
 				CC35CA0B1A7322D100627EA3 /* ViewController.m in Sources */,
 				CC35CA021A7322D100627EA3 /* AppDelegate.m in Sources */,
 				CCAFF5DF1A7586B60093936D /* EpisodeViewController.m in Sources */,
+				CCD67F111A78ACD40057CD3D /* CalendarCell.m in Sources */,
 				CCC486271A74312800C6CEC2 /* Episode.m in Sources */,
 				CC63AE1F1A7785A000F9B1AD /* EpisodeCalendarViewController.m in Sources */,
 				CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */,
