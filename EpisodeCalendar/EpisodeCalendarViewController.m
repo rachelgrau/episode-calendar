@@ -11,6 +11,7 @@
 @interface EpisodeCalendarViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *monthLabel;
 @property (strong, nonatomic) IBOutlet UILabel *yearLabel;
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @end
 
 @implementation EpisodeCalendarViewController
