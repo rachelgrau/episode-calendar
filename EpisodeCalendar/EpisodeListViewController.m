@@ -45,13 +45,44 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
-/* Datasource method */
+/* Given an NSIndexPath for our table view, return the Episode that
+    exists at that index path in the table. */
+- (Episode *) getEpisodeFromIndexPath:(NSIndexPath *)indexPath {
+    NSDate *date = [self.dates objectAtIndex:[indexPath section]];
+    NSArray *epsInSection = [self.tvShowsDict objectForKey:date];
+    return [epsInSection objectAtIndex:[indexPath row]];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+ 
+ /* Prepare information about selected cell to send to EpisodeViewController */
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+     if ([segue.identifier isEqualToString:@"toEpisodeDetail"]) {
+         EpisodeViewController *destViewController = segue.destinationViewController;
+         /* Get the selected episode based on index path */
+         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+         Episode *ep = [self getEpisodeFromIndexPath:indexPath];
+         /* Set properties of EpisodeViewController to display info about selected episode */
+         [destViewController setName:ep.name];
+         [destViewController setShow:ep.show];
+         [destViewController setSeason:ep.season];
+     }
+ }
+
+#pragma mark - UITableView Datasource
+
+/* Returns # of sections in the table view (number of dates) */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [self.dates count];
 }
 
-/* Datasource method, returns the title of the section (date in string form) */
+/* Returns the title of the section (date in string form) */
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSDate *dateToShow = [self.dates objectAtIndex:section];
@@ -75,7 +106,7 @@
     return [monthAndDay stringFromDate:dateToShow];
 }
 
-/* Datasource method */
+/* Returns number of rows in a certain section (# of episodes with a certain date) */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSDate *date = [self.dates objectAtIndex:section];
@@ -83,15 +114,7 @@
     return [epsWithThisDate count];
 }
 
-/* Given an NSIndexPath for our table view, return the Episode that
-    exists at that index path in the table. */
-- (Episode *) getEpisodeFromIndexPath:(NSIndexPath *)indexPath {
-    NSDate *date = [self.dates objectAtIndex:[indexPath section]];
-    NSArray *epsInSection = [self.tvShowsDict objectForKey:date];
-    return [epsInSection objectAtIndex:[indexPath row]];
-}
-
-/* Datasource method */
+/* Returns cell that should go at given index path */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *episodeTableIdentifier = @"EpisodeTableCell";
@@ -99,33 +122,10 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
-    
     Episode *ep = [self getEpisodeFromIndexPath:indexPath];
     cell.textLabel.text = ep.show;
     cell.detailTextLabel.text = ep.name;
     return cell;
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
- 
- /* Prepare information about selected cell to send to EpisodeViewController */
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
-     if ([segue.identifier isEqualToString:@"toEpisodeDetail"]) {
-         EpisodeViewController *destViewController = segue.destinationViewController;
-         /* Get the selected episode based on index path */
-         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-         Episode *ep = [self getEpisodeFromIndexPath:indexPath];
-         /* Set properties of EpisodeViewController to display info about selected episode */
-         [destViewController setName:ep.name];
-         [destViewController setShow:ep.show];
-         [destViewController setSeason:ep.season];
-     }
- }
- 
 
 @end
