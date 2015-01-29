@@ -10,5 +10,5 @@
 
 @interface CalendarDayCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
-
+@property (strong, nonatomic) IBOutlet UIView *backgroundView;
 @end

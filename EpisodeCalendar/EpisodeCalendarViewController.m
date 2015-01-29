@@ -113,14 +113,13 @@
 
 /* Given an indexPath of the collection view, return which date should be displayed at that indexPath. */
 - (NSDate *)getDateForIndexPath:(NSIndexPath *)indexPath {
-    NSInteger row = [indexPath row];
-    NSLog(@"%ld\n", row);
-    
     NSDate *ret = self.dateToDisplay;
     NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
     
     NSInteger weekdayOfFirst = [comps weekday] + 1;
+    if (weekdayOfFirst == 8) weekdayOfFirst = 1;
+    
     [comps setDay:[indexPath row] - weekdayOfFirst + 2];
     ret = [cal dateFromComponents:comps];
     /*
@@ -153,29 +152,30 @@
 
 #pragma mark - UICollectionView Datasource
 
-/* Return 7*4=28 if only need to display 4 weeks, or 7*5=35 if need to display 5 */
+/* Return 7*4=28 if only need to display 4 weeks, 7*5=35 if need to display 5 weeks, etc */
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-//    /* get the first day of the month we are trying to display */
-//    NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-//    NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
-//    [comps setDay:1];
-//    
-//    /* calculate whether or not we need 4 or 5 rows */
-//    NSInteger dayOfWeek = [comps weekday] + 1;
-//    NSRange rng = [cal rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self.dateToDisplay];
-//    NSUInteger numberOfDaysInMonth = rng.length;
-//    NSInteger numRows = (dayOfWeek + numberOfDaysInMonth) / 7;
-//    
-//    if (numRows == 6) {
-//        return 42;
-//    } else if (numRows == 5) {
-//        return 35;
-//    } else if (numRows == 4) {
-//        return 28;
-//    }
-//    return 0;
+    /* get the first day of the month we are trying to display */
+    NSCalendar *cal = [NSCalendar currentCalendar];
     
-    return 42;
+    NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
+    [comps setDay:1];
+    
+    /* calculate how many rows we need */
+    NSInteger dayOfWeek = [comps weekday] + 1;
+    if (dayOfWeek == 8) dayOfWeek = 1;
+    NSRange rng = [cal rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self.dateToDisplay];
+    NSUInteger numberOfDaysInMonth = rng.length;
+    NSInteger numRows = (dayOfWeek + numberOfDaysInMonth - 1)/7;
+    if (((dayOfWeek + numberOfDaysInMonth - 1) % 7) > 0){
+        numRows++;
+    }    if (numRows == 6) {
+        return 42;
+    } else if (numRows == 5) {
+        return 35;
+    } else if (numRows == 4) {
+        return 28;
+    }
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
@@ -187,7 +187,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CalendarDayCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UIColor lightGrayColor];
     
     NSDate *dateOnCell = [self getDateForIndexPath:indexPath];
     NSString *dateLabelString = [EpisodeCalendarViewController getDateString:dateOnCell];
