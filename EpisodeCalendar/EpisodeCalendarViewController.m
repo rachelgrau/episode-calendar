@@ -82,6 +82,18 @@
     [self.yearLabel setFont:[UIFont systemFontOfSize:16]];
     self.yearLabel.textColor = [UIColor grayColor];
     
+    UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
+    flowLayout.minimumInteritemSpacing = 0;
+    
+//    UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
+//    flow.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+//    flow.minimumInteritemSpacing = 0;
+//    flow.itemSize = CGSizeMake(180, 255);
+//    flow.sectionInset = UIEdgeInsetsMake(10, 30, 0, 30);
+//    flow.minimumInteritemSpacing = 0.0f;
+//    flow.minimumLineSpacing = 0.0f;
+//    self.collectionView.collectionViewLayout = flow;
+    
     /* Set up collection view cells */
     //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CalendarCell"];
 }
@@ -192,19 +204,30 @@
 
 #pragma mark – UICollectionViewDelegateFlowLayout
 
-// 1
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGSize retval = CGSizeMake(85, 85);
+    CGFloat collectionViewWidth = self.view.bounds.size.width;
+    CGFloat cellSize = collectionViewWidth/7 - 9;
+    CGSize retval = CGSizeMake(cellSize, cellSize);
     return retval;
 }
 
-// 3
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    
+    return 0;
+}
+
+#pragma mark - Orientation Change
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self.collectionView reloadData];
+}
 
 @end

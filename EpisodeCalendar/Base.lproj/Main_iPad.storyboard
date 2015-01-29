@@ -44,11 +44,11 @@
                                     <outletCollection property="gestureRecognizers" destination="lSZ-ER-XSP" appends="YES" id="HgY-zj-uI0"/>
                                 </connections>
                             </imageView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EhG-br-r9k">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EhG-br-r9k">
                                 <rect key="frame" x="20" y="136" width="721" height="614"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9T9-EG-vZp">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="9T9-EG-vZp">
                                     <size key="itemSize" width="160" height="143"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -89,7 +89,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Hcg-1t-w16" secondAttribute="trailing" constant="20" id="3tx-vx-Aef"/>
+                            <constraint firstAttribute="trailing" secondItem="EhG-br-r9k" secondAttribute="trailing" constant="27" id="4AM-aH-Zq1"/>
                             <constraint firstItem="MtM-hx-T16" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="9p1-Xg-jxG"/>
+                            <constraint firstItem="EhG-br-r9k" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="CfA-z0-2yh"/>
                             <constraint firstAttribute="centerX" secondItem="U3V-rn-zM0" secondAttribute="centerX" id="aO2-LN-WHz"/>
                             <constraint firstAttribute="centerX" secondItem="4hV-pr-n3C" secondAttribute="centerX" id="bOH-t9-rKB"/>
                         </constraints>
