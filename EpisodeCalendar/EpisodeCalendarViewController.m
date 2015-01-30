@@ -194,7 +194,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CalendarDayCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor lightGrayColor];
+    cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     NSDate *dateOnCell = [self getDateForIndexPath:indexPath];
     NSString *dateLabelString = [EpisodeCalendarViewController getDateString:dateOnCell];
