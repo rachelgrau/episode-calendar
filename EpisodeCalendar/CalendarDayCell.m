@@ -19,13 +19,10 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)setDateLabelText:(NSString *)dateString
 {
-    // Drawing code
+    self.dateLabel.text = dateString;
+    self.dateLabel.font = [UIFont systemFontOfSize:12];
 }
-*/
 
 @end

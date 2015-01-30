@@ -205,7 +205,8 @@
     } else {
         cell.dateLabel.textColor = [UIColor blackColor];
     }
-    cell.dateLabel.text = dateLabelString;
+    [cell setDateLabelText:dateLabelString];
+
     return cell;
 }
 

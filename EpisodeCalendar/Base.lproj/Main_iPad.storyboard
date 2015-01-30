@@ -67,7 +67,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iks-zS-wN7">
-                                                            <rect key="frame" x="3" y="-1" width="160" height="32"/>
+                                                            <rect key="frame" x="3" y="-7" width="160" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
@@ -75,7 +75,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="iks-zS-wN7" firstAttribute="leading" secondItem="evd-3p-lB5" secondAttribute="leading" constant="6" id="z3i-C6-PXk"/>
+                                                        <constraint firstItem="iks-zS-wN7" firstAttribute="leading" secondItem="evd-3p-lB5" secondAttribute="leading" constant="3" id="hdU-3o-kFw"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
