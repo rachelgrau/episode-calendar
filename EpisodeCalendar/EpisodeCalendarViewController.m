@@ -150,17 +150,15 @@
     return [dateFormat stringFromDate:date];
 }
 
-#pragma mark - UICollectionView Datasource
-
-/* Return 7*4=28 if only need to display 4 weeks, 7*5=35 if need to display 5 weeks, etc */
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+/* Returns the # of rows we need to display for the given month (4, 5, or 6 depending on how many days are in the month
+    and what weekday the first of the month falls on) */
+- (NSInteger) numberOfRowsInThisMonth {
     /* get the first day of the month we are trying to display */
     NSCalendar *cal = [NSCalendar currentCalendar];
     
     NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
     [comps setDay:1];
     
-    /* calculate how many rows we need */
     NSInteger dayOfWeek = [comps weekday] + 1;
     if (dayOfWeek == 8) dayOfWeek = 1;
     NSRange rng = [cal rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self.dateToDisplay];
@@ -168,7 +166,16 @@
     NSInteger numRows = (dayOfWeek + numberOfDaysInMonth - 1)/7;
     if (((dayOfWeek + numberOfDaysInMonth - 1) % 7) > 0){
         numRows++;
-    }    if (numRows == 6) {
+    }
+    return numRows;
+}
+
+#pragma mark - UICollectionView Datasource
+
+/* Return 7*4=28 if only need to display 4 weeks, 7*5=35 if need to display 5 weeks, etc */
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+    NSInteger numRows = [self numberOfRowsInThisMonth];
+    if (numRows == 6) {
         return 42;
     } else if (numRows == 5) {
         return 35;
@@ -207,8 +214,12 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat collectionViewWidth = self.view.bounds.size.width;
-    CGFloat cellSize = collectionViewWidth/7 - 9;
-    CGSize retval = CGSizeMake(cellSize, cellSize);
+    CGFloat cellWidth = collectionViewWidth/7 - 9;
+    
+    int numRows = [self numberOfRowsInThisMonth];
+    CGFloat collectionViewHeight = self.collectionView.bounds.size.height;
+    CGFloat cellHeight = collectionViewHeight/numRows - 9;
+    CGSize retval = CGSizeMake(cellWidth, cellHeight);
     return retval;
 }
 
