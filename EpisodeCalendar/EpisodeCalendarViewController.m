@@ -8,12 +8,14 @@
 
 #import "EpisodeCalendarViewController.h"
 #import "CalendarDayCell.h"
+#import "Episode.h"
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *monthLabel;
 @property (strong, nonatomic) IBOutlet UILabel *yearLabel;
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
+@property NSDictionary *episodes;
 @end
 
 @implementation EpisodeCalendarViewController
@@ -82,20 +84,12 @@
     [self.yearLabel setFont:[UIFont systemFontOfSize:16]];
     self.yearLabel.textColor = [UIColor grayColor];
     
+    /* Fetch episodes for this month */
+    self.episodes = [Episode fetchAllForMonth:[components month] andYear:[components year]];
+
     UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     flowLayout.minimumInteritemSpacing = 0;
     
-//    UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
-//    flow.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-//    flow.minimumInteritemSpacing = 0;
-//    flow.itemSize = CGSizeMake(180, 255);
-//    flow.sectionInset = UIEdgeInsetsMake(10, 30, 0, 30);
-//    flow.minimumInteritemSpacing = 0.0f;
-//    flow.minimumLineSpacing = 0.0f;
-//    self.collectionView.collectionViewLayout = flow;
-    
-    /* Set up collection view cells */
-    //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CalendarCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -111,8 +105,8 @@
     // Pass the selected object to the new view controller.
 }
 
-/* Given an indexPath of the collection view, return which date should be displayed at that indexPath. */
-- (NSDate *)getDateForIndexPath:(NSIndexPath *)indexPath {
+/* Given an index of the collection view, return which date should be displayed at that indexPath. */
+- (NSDate *)getDateForIndex:(NSInteger )index {
     NSDate *ret = self.dateToDisplay;
     NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
@@ -120,7 +114,7 @@
     NSInteger weekdayOfFirst = [comps weekday] + 1;
     if (weekdayOfFirst == 8) weekdayOfFirst = 1;
     
-    [comps setDay:[indexPath row] - weekdayOfFirst + 2];
+    [comps setDay:index - weekdayOfFirst + 2];
     ret = [cal dateFromComponents:comps];
     /*
      get weekdayOfFirstDay (if jan 1 is on a thurs, get 5)
@@ -196,7 +190,7 @@
     CalendarDayCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
-    NSDate *dateOnCell = [self getDateForIndexPath:indexPath];
+    NSDate *dateOnCell = [self getDateForIndex:indexPath.row];
     NSString *dateLabelString = [EpisodeCalendarViewController getDateString:dateOnCell];
     
     /* If not from this month, gray out text */
@@ -218,7 +212,7 @@
     CGFloat collectionViewWidth = self.view.bounds.size.width;
     CGFloat cellWidth = collectionViewWidth/7 - 9;
     
-    int numRows = [self numberOfRowsInThisMonth];
+    NSInteger numRows = [self numberOfRowsInThisMonth];
     CGFloat collectionViewHeight = self.collectionView.bounds.size.height;
     CGFloat cellHeight = collectionViewHeight/numRows - 9;
     CGSize retval = CGSizeMake(cellWidth, cellHeight);
@@ -259,14 +253,31 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
-    cell.backgroundColor = [UIColor blueColor];
+    cell.textLabel.font = [UIFont systemFontOfSize:10];
+    NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
+    
+    Episode *ep = [self.episodes objectForKey:dateOnCell];
+    if (ep) {
+        cell.textLabel.text = ep.name;
+    }
     return cell;
 }
 
 /* Returns number of rows in a certain section (# of episodes with a certain date) */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
+    Episode *ep = [self.episodes objectForKey:dateOnCell];
+    if (ep) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 20;
 }
 
 

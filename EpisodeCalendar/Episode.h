@@ -20,5 +20,6 @@
 + (NSArray *)fetchAll;
 + (NSDictionary *) fetchAllByDate:(NSMutableArray *)resultDates;
 + (NSString *)stringFromDate:(NSDate *)date;
++ (NSDictionary *) fetchAllForMonth:(NSInteger) month andYear:(NSInteger)year;
 @end
 

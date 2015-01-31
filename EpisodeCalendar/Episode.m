@@ -115,7 +115,8 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
-+ (NSDictionary *) fetchAllForMonth:(int) month andYear:(int)year{
++ (NSDictionary *) fetchAllForMonth:(NSInteger)month andYear:(NSInteger)year
+{
     NSMutableDictionary *ret = [[NSMutableDictionary alloc] init];
     NSData *jsonData = [Episode getJsonForUrlString:urlString];
     if (jsonData) {

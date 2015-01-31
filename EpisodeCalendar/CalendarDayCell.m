@@ -10,7 +10,8 @@
 #import "EpisodeListTableView.h"
 
 @interface CalendarDayCell ()
-@property EpisodeListTableView *tableView;
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *episodeContentView;
 @end
 
@@ -26,7 +27,7 @@
 
 - (void)setTableView
 {
-    self.tableView = [[EpisodeListTableView alloc] initWithFrame:CGRectZero];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"EpisodeTableCell"];
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.tableView];
