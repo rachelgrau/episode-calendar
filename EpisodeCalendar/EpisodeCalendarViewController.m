@@ -16,6 +16,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *yearLabel;
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property NSDictionary *episodes;
+@property NSInteger lastMonth;
+@property NSInteger nextMonth;
 @end
 
 @implementation EpisodeCalendarViewController
@@ -84,9 +86,15 @@
     [self.yearLabel setFont:[UIFont systemFontOfSize:16]];
     self.yearLabel.textColor = [UIColor grayColor];
     
-    /* Fetch episodes for this month */
-    self.episodes = [Episode fetchAllForMonth:[components month] andYear:[components year]];
-
+    /* Fetch all episodes between the first date we need to display (which might be from the previous month) and the 
+       last date we need to display (which might be from the next month) */
+    NSDate *firstDateNeeded = [self getDateForIndex:0];
+    NSInteger numRows = [self numberOfRowsInThisMonth];
+    NSDate *lastDateNeeded = [self getDateForIndex:(numRows * 7) - 1];
+    self.episodes = [Episode fetchAllBetween:firstDateNeeded and:lastDateNeeded];
+    
+    NSLog(@"%ld", self.episodes.count);
+    
     UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     flowLayout.minimumInteritemSpacing = 0;
     
@@ -256,10 +264,25 @@
     cell.textLabel.font = [UIFont systemFontOfSize:10];
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
     
-    Episode *ep = [self.episodes objectForKey:dateOnCell];
-    if (ep) {
-        cell.textLabel.text = ep.name;
+    /* Check if there are episodes for this date */
+    NSArray *arr = [self.episodes objectForKey:dateOnCell];
+    if (arr) {
+        Episode *ep = arr[indexPath.row];
+        NSString *cellText = [NSString stringWithFormat:@"%@ (%dx%d)", ep.show, ep.season, ep.number];
+        cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+        cell.textLabel.numberOfLines = 0;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (ep.watched) {
+            NSMutableAttributedString *strikeThroughString = [[NSMutableAttributedString alloc] initWithString:cellText];
+            [strikeThroughString addAttribute:NSStrikethroughStyleAttributeName
+                                    value:@2
+                                    range:NSMakeRange(0, [strikeThroughString length])];
+            cell.textLabel.attributedText = strikeThroughString;
+        } else {
+            cell.textLabel.text = cellText;
+        }
     }
+    
     return cell;
 }
 
@@ -267,9 +290,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
-    Episode *ep = [self.episodes objectForKey:dateOnCell];
-    if (ep) {
-        return 1;
+    NSArray *arr = [self.episodes objectForKey:dateOnCell];
+    if (arr) {
+        return (arr.count);
     } else {
         return 0;
     }

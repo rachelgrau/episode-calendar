@@ -115,7 +115,51 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
-+ (NSDictionary *) fetchAllForMonth:(NSInteger)month andYear:(NSInteger)year
+/* Returns dictionary where keys = air date and values = array of episodes with that date */
+//+ (NSDictionary *) fetchAllForMonth:(NSInteger)month andYear:(NSInteger)year
+//{
+//    NSMutableDictionary *ret = [[NSMutableDictionary alloc] init];
+//    NSData *jsonData = [Episode getJsonForUrlString:urlString];
+//    if (jsonData) {
+//        NSArray *objs = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+//        for (NSDictionary *episodeDictionary in objs) {
+//            Episode *ep = [Episode getEpisodeFromDictionary:episodeDictionary];
+//            
+//            /* Check if current episode's month and year match the given values, if so, add it to the dictionary we return */
+//            NSDate *airDate = ep.airDate;
+//             NSDateComponents *givenDateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:airDate];
+//            if (([givenDateComponents month] == month) && ([givenDateComponents year] == year)) {
+//                NSMutableArray *epsWithThisDate = [ret objectForKey:ep.airDate];
+//                if (epsWithThisDate == nil) {
+//                    epsWithThisDate = [[NSMutableArray alloc] init];
+//                    [epsWithThisDate addObject:ep];
+//                } else {
+//                    [epsWithThisDate addObject:ep];
+//                }
+//
+//                [ret setObject:epsWithThisDate forKey:ep.airDate];
+//            }
+//        }
+//        return ret;
+//    }
+//    return nil;
+//}
+
+
++ (BOOL)isDate:(NSDate *)date betweenDate:(NSDate *)firstDate andDate:(NSDate *)lastDate
+{
+    if ([date compare:lastDate] == NSOrderedDescending) {
+        /* Given date is after last date --> out of bounds */
+        return NO;
+    } else if ([date compare:firstDate] == NSOrderedAscending) {
+        /* Given date is before first date --> out of bounds */
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
++ (NSDictionary *) fetchAllBetween:(NSDate *)date1 and:(NSDate *)date2
 {
     NSMutableDictionary *ret = [[NSMutableDictionary alloc] init];
     NSData *jsonData = [Episode getJsonForUrlString:urlString];
@@ -124,11 +168,18 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
         for (NSDictionary *episodeDictionary in objs) {
             Episode *ep = [Episode getEpisodeFromDictionary:episodeDictionary];
             
-            /* Check if current episode's month and year match the given values, if so, add it to the dictionary we return */
+            /* Check if current episode is between the given dates. If so, add it to our dictionary. */
             NSDate *airDate = ep.airDate;
-             NSDateComponents *givenDateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:airDate];
-            if (([givenDateComponents month] == month) && ([givenDateComponents year] == year)) {
-                [ret setObject:ep forKey:ep.airDate];
+            if ([self isDate:airDate betweenDate:date1 andDate:date2]) {
+                NSMutableArray *epsWithThisDate = [ret objectForKey:ep.airDate];
+                if (epsWithThisDate == nil) {
+                    epsWithThisDate = [[NSMutableArray alloc] init];
+                    [epsWithThisDate addObject:ep];
+                } else {
+                    [epsWithThisDate addObject:ep];
+                }
+                
+                [ret setObject:epsWithThisDate forKey:ep.airDate];
             }
         }
         return ret;

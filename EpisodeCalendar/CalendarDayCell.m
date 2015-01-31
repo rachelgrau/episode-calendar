@@ -31,6 +31,8 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"EpisodeTableCell"];
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.tableView];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.userInteractionEnabled = NO;
 }
 
 - (void)layoutSubviews
