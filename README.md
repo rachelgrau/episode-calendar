@@ -12,3 +12,6 @@ TO DO: ipad version
 - Display shows on each date
 - If on portrait mode: show something below calendar
   - Shows for selected day?
+-Extend NSDate and add all date related functions there
+  - Some in Episode.h
+  - Some in EpisodeCalendarVC
