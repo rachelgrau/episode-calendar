@@ -11,6 +11,9 @@
 @interface CalendarDayCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 @property (strong, nonatomic) IBOutlet UIView *backgroundView;
+@property NSMutableArray *shows;
 
 - (void)setDateLabelText:(NSString *)dateString;
+- (void)setTableViewDataSourceDelegate:(id<UITableViewDataSource, UITableViewDelegate>)dataSourceDelegate index:(NSInteger)index;
+- (void)setTableView;
 @end

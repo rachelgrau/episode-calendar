@@ -77,6 +77,11 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fCw-oL-pkm">
+                                                            <rect key="frame" x="10" y="24" width="137" height="111"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -98,6 +103,7 @@
                                         <connections>
                                             <outlet property="backgroundView" destination="evd-3p-lB5" id="gEU-Xg-AgV"/>
                                             <outlet property="dateLabel" destination="iks-zS-wN7" id="NRd-xe-ziu"/>
+                                            <outlet property="episodeContentView" destination="fCw-oL-pkm" id="wvS-hW-Zht"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

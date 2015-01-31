@@ -9,7 +9,7 @@
 #import "EpisodeCalendarViewController.h"
 #import "CalendarDayCell.h"
 
-@interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *monthLabel;
 @property (strong, nonatomic) IBOutlet UILabel *yearLabel;
@@ -205,8 +205,9 @@
     } else {
         cell.dateLabel.textColor = [UIColor blackColor];
     }
+    [cell setTableView];
     [cell setDateLabelText:dateLabelString];
-
+    [cell setTableViewDataSourceDelegate:self index:indexPath.row];
     return cell;
 }
 
@@ -241,5 +242,32 @@
 {
     [self.collectionView reloadData];
 }
+
+#pragma mark - UITableViewDataSource Methods
+
+/* Returns # of sections in the table view (number of dates) */
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+/* Returns cell that should go at given index path */
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *episodeTableIdentifier = @"EpisodeTableCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:episodeTableIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
+    }
+    cell.backgroundColor = [UIColor blueColor];
+    return cell;
+}
+
+/* Returns number of rows in a certain section (# of episodes with a certain date) */
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+
 
 @end
