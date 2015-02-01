@@ -28,6 +28,7 @@
 		CC77C8521A79760600FF5575 /* CalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC77C8511A79760600FF5575 /* CalendarDayCell.m */; };
 		CC81F09F1A7EC68D006DCA92 /* EpisodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81F09E1A7EC68D006DCA92 /* EpisodeViewController.m */; };
 		CC81F0A51A7EC739006DCA92 /* EpisodeDateUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81F0A41A7EC739006DCA92 /* EpisodeDateUtility.m */; };
+		CC81F0AF1A7EDB2B006DCA92 /* EpisodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81F0AE1A7EDB2B006DCA92 /* EpisodeManager.m */; };
 		CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */; };
 		CCC486271A74312800C6CEC2 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC486261A74312800C6CEC2 /* Episode.m */; };
 /* End PBXBuildFile section */
@@ -73,6 +74,8 @@
 		CC81F09E1A7EC68D006DCA92 /* EpisodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeViewController.m; sourceTree = "<group>"; };
 		CC81F0A31A7EC739006DCA92 /* EpisodeDateUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeDateUtility.h; path = ../EpisodeDateUtility.h; sourceTree = "<group>"; };
 		CC81F0A41A7EC739006DCA92 /* EpisodeDateUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeDateUtility.m; path = ../EpisodeDateUtility.m; sourceTree = "<group>"; };
+		CC81F0AD1A7EDB2B006DCA92 /* EpisodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeManager.h; path = ../EpisodeManager.h; sourceTree = "<group>"; };
+		CC81F0AE1A7EDB2B006DCA92 /* EpisodeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeManager.m; path = ../EpisodeManager.m; sourceTree = "<group>"; };
 		CCAFF5DA1A7585C70093936D /* EpisodeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeListViewController.h; sourceTree = "<group>"; };
 		CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeListViewController.m; sourceTree = "<group>"; };
 		CCC486251A74312800C6CEC2 /* Episode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Episode.h; sourceTree = "<group>"; };
@@ -217,6 +220,8 @@
 		CC81F09C1A7EC641006DCA92 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CC81F0AD1A7EDB2B006DCA92 /* EpisodeManager.h */,
+				CC81F0AE1A7EDB2B006DCA92 /* EpisodeManager.m */,
 				CCC486251A74312800C6CEC2 /* Episode.h */,
 				CCC486261A74312800C6CEC2 /* Episode.m */,
 			);
@@ -332,6 +337,7 @@
 				CC63AE1F1A7785A000F9B1AD /* EpisodeCalendarViewController.m in Sources */,
 				CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */,
 				CC35C9FE1A7322D100627EA3 /* main.m in Sources */,
+				CC81F0AF1A7EDB2B006DCA92 /* EpisodeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

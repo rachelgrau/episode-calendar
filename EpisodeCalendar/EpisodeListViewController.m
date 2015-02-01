@@ -8,6 +8,7 @@
 
 #import "EpisodeListViewController.h"
 #import "Episode.h"
+#import "EpisodeManager.h"
 #import "EpisodeViewController.h"
 
 @interface EpisodeListViewController ()
@@ -33,9 +34,9 @@
 {
     [super viewDidLoad];
     
-    self.tvShows = [Episode fetchAll];
+    self.tvShows = [EpisodeManager fetchAll];
     self.dates = [[NSMutableArray alloc] init];
-    self.tvShowsDict = [Episode fetchAllByDate:self.dates];
+    self.tvShowsDict = [EpisodeManager fetchAllByDate:self.dates];
     self.nvc = [self navigationController];
     
     // Do any additional setup after loading the view.

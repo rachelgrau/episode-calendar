@@ -9,6 +9,7 @@
 #import "EpisodeCalendarViewController.h"
 #import "CalendarDayCell.h"
 #import "Episode.h"
+#import "EpisodeManager.h"
 #import "EpisodeDateUtility.h"
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
@@ -72,7 +73,7 @@
     NSDate *firstDateNeeded = [self getDateForIndex:0];
     NSInteger numRows = [self numberOfRowsInThisMonth];
     NSDate *lastDateNeeded = [self getDateForIndex:(numRows * 7) - 1];
-    self.episodes = [Episode fetchAllBetween:firstDateNeeded and:lastDateNeeded];
+    self.episodes = [EpisodeManager fetchAllBetween:firstDateNeeded and:lastDateNeeded];
     
     NSLog(@"%ld", (long)self.episodes.count);
     
