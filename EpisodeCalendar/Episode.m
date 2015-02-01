@@ -7,23 +7,13 @@
 //
 
 #import "Episode.h"
+#import "EpisodeDateUtility.h"
 
 @implementation Episode
 
 static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/rachel/episodecalendar-data.json";
 
-+ (NSDate *)dateFromString:(NSString *)dateString {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    NSDate *date = [dateFormat dateFromString:dateString];
-    return date;
-}
 
-+ (NSString *)stringFromDate:(NSDate *)date {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    return [dateFormat stringFromDate:date];
-}
 
 + (NSData *)getJsonForUrlString:(NSString *)urlString {
     NSURL *url = [NSURL URLWithString:urlString];
@@ -40,7 +30,7 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     ep.season = [[dictionary objectForKey:@"season"] intValue];
     ep.show = [dictionary objectForKey:@"show"];
     ep.number = [[dictionary objectForKey:@"number"] intValue];
-    ep.airDate = [Episode dateFromString:[dictionary objectForKey:@"air_date"]];
+    ep.airDate = [EpisodeDateUtility dateFromString:[dictionary objectForKey:@"air_date"]];
     return ep;
 }
 
@@ -66,10 +56,10 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
 
 + (void)insertSorted:(NSMutableArray *)arr withDateString:(NSString *)dateString
 {
-    NSDate *toInsert = [Episode dateFromString:dateString];
+    NSDate *toInsert = [EpisodeDateUtility dateFromString:dateString];
     int i = 0;
     for (NSString *curr in arr) {
-        NSDate *currDate = [Episode dateFromString:curr];
+        NSDate *currDate = [EpisodeDateUtility dateFromString:curr];
         if ([currDate isEqualToDate:toInsert]) return;
         if ([[currDate laterDate:toInsert] isEqualToDate:toInsert]) {
             [arr insertObject:dateString atIndex:i];
@@ -115,49 +105,6 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
-/* Returns dictionary where keys = air date and values = array of episodes with that date */
-//+ (NSDictionary *) fetchAllForMonth:(NSInteger)month andYear:(NSInteger)year
-//{
-//    NSMutableDictionary *ret = [[NSMutableDictionary alloc] init];
-//    NSData *jsonData = [Episode getJsonForUrlString:urlString];
-//    if (jsonData) {
-//        NSArray *objs = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-//        for (NSDictionary *episodeDictionary in objs) {
-//            Episode *ep = [Episode getEpisodeFromDictionary:episodeDictionary];
-//
-//            /* Check if current episode's month and year match the given values, if so, add it to the dictionary we return */
-//            NSDate *airDate = ep.airDate;
-//             NSDateComponents *givenDateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:airDate];
-//            if (([givenDateComponents month] == month) && ([givenDateComponents year] == year)) {
-//                NSMutableArray *epsWithThisDate = [ret objectForKey:ep.airDate];
-//                if (epsWithThisDate == nil) {
-//                    epsWithThisDate = [[NSMutableArray alloc] init];
-//                    [epsWithThisDate addObject:ep];
-//                } else {
-//                    [epsWithThisDate addObject:ep];
-//                }
-//
-//                [ret setObject:epsWithThisDate forKey:ep.airDate];
-//            }
-//        }
-//        return ret;
-//    }
-//    return nil;
-//}
-
-
-+ (BOOL)isDate:(NSDate *)date betweenDate:(NSDate *)firstDate andDate:(NSDate *)lastDate
-{
-    if ([date compare:lastDate] == NSOrderedDescending) {
-        /* Given date is after last date --> out of bounds */
-        return NO;
-    } else if ([date compare:firstDate] == NSOrderedAscending) {
-        /* Given date is before first date --> out of bounds */
-        return NO;
-    } else {
-        return YES;
-    }
-}
 
 + (NSDictionary *) fetchAllBetween:(NSDate *)date1 and:(NSDate *)date2
 {
@@ -170,7 +117,7 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
             
             /* Check if current episode is between the given dates. If so, add it to our dictionary. */
             NSDate *airDate = ep.airDate;
-            if ([self isDate:airDate betweenDate:date1 andDate:date2]) {
+            if ([EpisodeDateUtility isDate:airDate betweenDate:date1 andDate:date2]) {
                 NSMutableArray *epsWithThisDate = [ret objectForKey:ep.airDate];
                 if (epsWithThisDate == nil) {
                     epsWithThisDate = [[NSMutableArray alloc] init];
@@ -189,7 +136,7 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
 
 /* Override description method to return a nice string describing this episode */
 - (NSString *)description {
-    return [NSString stringWithFormat:@"\n{\n\tShow: %@ \n\tSeason: %d\n\tEpisode name: %@\n\tEpisode number: %d\n\tWatched: %@\n\tAir date: %@\n}", self.show, self.season, self.name, self.number, (self.watched ? @"true" : @"false"), [Episode stringFromDate:self.airDate]];
+    return [NSString stringWithFormat:@"\n{\n\tShow: %@ \n\tSeason: %d\n\tEpisode name: %@\n\tEpisode number: %d\n\tWatched: %@\n\tAir date: %@\n}", self.show, self.season, self.name, self.number, (self.watched ? @"true" : @"false"), [EpisodeDateUtility numericalStringFromDate:self.airDate]];
 }
 
 @end
