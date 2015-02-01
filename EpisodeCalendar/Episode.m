@@ -107,9 +107,9 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
             [ret setObject:epsWithThisDate forKey:ep.airDate];
         }
         [resultDates sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
-        {
-            return [obj2 compare:obj1];
-        }];
+         {
+             return [obj2 compare:obj1];
+         }];
         return ret;
     }
     return nil;
@@ -124,7 +124,7 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
 //        NSArray *objs = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
 //        for (NSDictionary *episodeDictionary in objs) {
 //            Episode *ep = [Episode getEpisodeFromDictionary:episodeDictionary];
-//            
+//
 //            /* Check if current episode's month and year match the given values, if so, add it to the dictionary we return */
 //            NSDate *airDate = ep.airDate;
 //             NSDateComponents *givenDateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:airDate];
@@ -193,3 +193,5 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
 }
 
 @end
+
+

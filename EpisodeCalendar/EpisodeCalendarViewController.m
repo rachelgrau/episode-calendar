@@ -33,7 +33,7 @@
 
 /* Returns true if the two given dates have the same month, and false otherwise. */
 - (BOOL)haveSameMonth:(NSDate *)date1 date2:(NSDate *)date2 {
-     NSDateComponents *comps1 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date1];
+    NSDateComponents *comps1 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date1];
     
     NSDateComponents *comps2 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date2];
     
@@ -42,7 +42,7 @@
 }
 
 /* Given a number of months (probably 1 or -1), returns an NSDate * with adding that # of months from the date currently being displayed.
-   For example, if we are currently displaying January 22, 2015, and you call getDate:-1, will return an NSDate * with the date December 22, 2014.*/
+ For example, if we are currently displaying January 22, 2015, and you call getDate:-1, will return an NSDate * with the date December 22, 2014.*/
 - (NSDate *)getDate:(int)monthsAway {
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
@@ -86,8 +86,8 @@
     [self.yearLabel setFont:[UIFont systemFontOfSize:16]];
     self.yearLabel.textColor = [UIColor grayColor];
     
-    /* Fetch all episodes between the first date we need to display (which might be from the previous month) and the 
-       last date we need to display (which might be from the next month) */
+    /* Fetch all episodes between the first date we need to display (which might be from the previous month) and the
+     last date we need to display (which might be from the next month) */
     NSDate *firstDateNeeded = [self getDateForIndex:0];
     NSInteger numRows = [self numberOfRowsInThisMonth];
     NSDate *lastDateNeeded = [self getDateForIndex:(numRows * 7) - 1];
@@ -113,23 +113,32 @@
     // Pass the selected object to the new view controller.
 }
 
-/* Given an index of the collection view, return which date should be displayed at that indexPath. */
-- (NSDate *)getDateForIndex:(NSInteger )index {
-    NSDate *ret = self.dateToDisplay;
+/**
+ * Returns the weekday (Sunday = 1, Saturday = 7) that the first day of the month we're displaying falls on.
+ */
+- (NSInteger)getWeekDayOfFirstDayOfMonth
+{
     NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
-    
-    NSInteger weekdayOfFirst = [comps weekday] + 1;
+    comps.day = 1;
+    NSDate *firstOfMonth = [cal dateFromComponents:comps];
+    NSDateComponents *comps2 = [cal components:NSWeekdayCalendarUnit fromDate:firstOfMonth];
+    NSInteger weekdayOfFirst = [comps2 weekday];
     if (weekdayOfFirst == 8) weekdayOfFirst = 1;
+    return weekdayOfFirst;
+}
+
+/* Given an index of the collection view, return which date should be displayed at that indexPath. */
+- (NSDate *)getDateForIndex:(NSInteger )index {
+    /* Get first day of month */
+    NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
+    comps.day = 1;
+    NSInteger weekdayOfFirst = [self getWeekDayOfFirstDayOfMonth];
     
+    /* Use week day of first of month to find the date that should go at index */
     [comps setDay:index - weekdayOfFirst + 2];
-    ret = [cal dateFromComponents:comps];
-    /*
-     get weekdayOfFirstDay (if jan 1 is on a thurs, get 5)
-     get dateToDisplay = row - weekdayOfFirstDay + 2
-     */
-    
-    return ret;
+    return [cal dateFromComponents:comps];
 }
 
 /* Given a date, return a string in the form "MMM. d'st'". For example, "Jan. 28th," "Feb. 1st" or "Mar. 3rd" */
@@ -153,20 +162,19 @@
 }
 
 /* Returns the # of rows we need to display for the given month (4, 5, or 6 depending on how many days are in the month
-    and what weekday the first of the month falls on) */
+ and what weekday the first of the month falls on) */
 - (NSInteger) numberOfRowsInThisMonth {
-    /* get the first day of the month we are trying to display */
-    NSCalendar *cal = [NSCalendar currentCalendar];
+    /* Get first day of month & what weekday it falls on */
+    NSInteger weekdayOfFirst = [self getWeekDayOfFirstDayOfMonth];
     
-    NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
-    [comps setDay:1];
-    
-    NSInteger dayOfWeek = [comps weekday] + 1;
-    if (dayOfWeek == 8) dayOfWeek = 1;
+    /* Get number of days in month */
+    NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSRange rng = [cal rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self.dateToDisplay];
     NSUInteger numberOfDaysInMonth = rng.length;
-    NSInteger numRows = (dayOfWeek + numberOfDaysInMonth - 1)/7;
-    if (((dayOfWeek + numberOfDaysInMonth - 1) % 7) > 0){
+    
+    /* Return divide # of days to display by 7 and add an extra week if there's a remainder */
+    NSInteger numRows = (weekdayOfFirst + numberOfDaysInMonth - 1)/7;
+    if (((weekdayOfFirst + numberOfDaysInMonth - 1) % 7) > 0){
         numRows++;
     }
     return numRows;
@@ -177,14 +185,7 @@
 /* Return 7*4=28 if only need to display 4 weeks, 7*5=35 if need to display 5 weeks, etc */
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
     NSInteger numRows = [self numberOfRowsInThisMonth];
-    if (numRows == 6) {
-        return 42;
-    } else if (numRows == 5) {
-        return 35;
-    } else if (numRows == 4) {
-        return 28;
-    }
-    return 0;
+    return numRows * 7;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
@@ -199,6 +200,12 @@
     cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     NSDate *dateOnCell = [self getDateForIndex:indexPath.row];
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:dateOnCell];
+    if ([components month] == 3) {
+        
+    }
+    
     NSString *dateLabelString = [EpisodeCalendarViewController getDateString:dateOnCell];
     
     /* If not from this month, gray out text */
@@ -272,11 +279,16 @@
         cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
         cell.textLabel.numberOfLines = 0;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        /* Gray out if not from this month */
+        if (![self haveSameMonth:self.dateToDisplay date2:dateOnCell]) {
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
+        /* Strikethrough font if watched */
         if (ep.watched) {
             NSMutableAttributedString *strikeThroughString = [[NSMutableAttributedString alloc] initWithString:cellText];
             [strikeThroughString addAttribute:NSStrikethroughStyleAttributeName
-                                    value:@2
-                                    range:NSMakeRange(0, [strikeThroughString length])];
+                                        value:@2
+                                        range:NSMakeRange(0, [strikeThroughString length])];
             cell.textLabel.attributedText = strikeThroughString;
         } else {
             cell.textLabel.text = cellText;
@@ -305,3 +317,4 @@
 
 
 @end
+

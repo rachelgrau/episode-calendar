@@ -20,7 +20,6 @@
 + (NSArray *)fetchAll;
 + (NSDictionary *) fetchAllByDate:(NSMutableArray *)resultDates;
 + (NSString *)stringFromDate:(NSDate *)date;
-+ (NSDictionary *) fetchAllForMonth:(NSInteger) month andYear:(NSInteger)year;
 + (NSDictionary *) fetchAllBetween:(NSDate *)date1 and:(NSDate *)date2;
 @end
 
