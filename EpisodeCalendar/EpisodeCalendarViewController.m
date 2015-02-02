@@ -143,7 +143,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CalendarDayCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//    cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     NSDate *dateOnCell = [self getDateForIndex:indexPath.row];
     NSCalendar* calendar = [NSCalendar currentCalendar];

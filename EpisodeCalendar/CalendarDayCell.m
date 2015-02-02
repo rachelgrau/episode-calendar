@@ -21,6 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
     return self;
 }
@@ -28,7 +29,7 @@
 - (void)setTableView
 {
     if (!self.tableView){
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
+        self.tableView = [[UITableView alloc] initWithFrame:self.episodeContentView.frame];
         [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"EpisodeTableCell"];
         self.tableView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:self.tableView];
@@ -60,5 +61,6 @@
     self.tableView.tag = index;
     [self.tableView reloadData];
 }
+
 
 @end
