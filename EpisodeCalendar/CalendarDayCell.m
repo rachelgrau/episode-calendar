@@ -1,10 +1,8 @@
-//
-//  CalendarDayCell.m
-//  EpisodeCalendar
-//
-//  Created by Rachel on 1/28/15.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: CalendarDayCell.m
+ * -------------------------
+ * Implementation of a Calendar Day Cell.
+ */
 
 #import "CalendarDayCell.h"
 #import "EpisodeListTableView.h"

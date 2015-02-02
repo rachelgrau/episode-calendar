@@ -1,10 +1,8 @@
-//
-//  Episode.m
-//  EpisodeCalendar
-//
-//  Created by Rachel on 24/01/2015.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: Episode.m
+ * -------------------------
+ * Implementation of an Episode model object.
+ */
 
 #import "Episode.h"
 #import "EpisodeDateUtility.h"

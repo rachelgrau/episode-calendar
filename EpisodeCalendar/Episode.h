@@ -1,10 +1,10 @@
-//
-//  Episode.h
-//  EpisodeCalendar
-//
-//  Created by Rachel on 24/01/2015.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: Episode.h
+ * -------------------------
+ * Model of an "Episode." An episode contains information about its name,
+ * airDate, whether or not it has been watched, its season number, its 
+ * show, and its number (episode number within season).
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -17,8 +17,5 @@
 @property NSString *show; /* Name of the show this episode belongs to */
 @property int number; /* Episode number */
 
-+ (NSArray *)fetchAll;
-+ (NSDictionary *) fetchAllByDate:(NSMutableArray *)resultDates;
-+ (NSDictionary *) fetchAllBetween:(NSDate *)date1 and:(NSDate *)date2;
 @end
 
