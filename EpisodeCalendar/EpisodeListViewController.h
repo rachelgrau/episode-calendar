@@ -1,10 +1,10 @@
-//
-//  EpisodeListViewController.h
-//  EpisodeCalendar
-//
-//  Created by Rachel on 25/01/2015.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: EpisodeListViewController.h
+ * ---------------------------------
+ * View Controller for the iphone Episode Calendar. Displays a list view of 
+ * dates (in chronological order from newest to oldest) along with which
+ * episodes are playing on each date.
+ */
 
 #import <UIKit/UIKit.h>
 

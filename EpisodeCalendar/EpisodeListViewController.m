@@ -1,22 +1,30 @@
-//
-//  EpisodeListViewController.m
-//  EpisodeCalendar
-//
-//  Created by Rachel on 25/01/2015.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: EpisodeListViewController.h
+ * ---------------------------------
+ * Implementation of the view controller for the iphone Episode Calendar. 
+ * Uses a table view to display "sections" (dates). Each section/date
+ * has a list of episodes that occur on that date. So, this view controller
+ * serves as the data source and delegate for that table view.
+ *
+ * Design: store a dictionary where keys = dates and values = a list
+ * of episodes that occur on that date. Also store an array of all the 
+ * dates that have episodes, and keep it in order. This way, in the table
+ * view callbacks, we can use the index of a cell to figure out which date
+ * goes there. Then, we can pass that date into the dictionary as a key 
+ * and retrieve all the episodes for that date.
+ */
 
 #import "EpisodeListViewController.h"
 #import "Episode.h"
 #import "EpisodeManager.h"
 #import "EpisodeViewController.h"
+#import "EpisodeDateUtility.h"
 
 @interface EpisodeListViewController ()
-@property NSArray *tvShows;
-@property NSDictionary *tvShowsDict;
-@property NSMutableArray *dates;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property UINavigationController *nvc;
+@property NSDictionary *tvShowsDict; // Dictionary where keys = date strings and values = array of episodes on that date
+@property NSMutableArray *dates; // List of dates that have episodes, in chronological order (newest - oldest)
+@property (strong, nonatomic) IBOutlet UITableView *tableView; // Table view that displays shows
+@property UINavigationController *nvc; // Navigation view controller
 @end
 
 @implementation EpisodeListViewController
@@ -25,7 +33,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -33,31 +40,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.tvShows = [EpisodeManager fetchAll];
+    /* Fetch episodes and dates */
     self.dates = [[NSMutableArray alloc] init];
     self.tvShowsDict = [EpisodeManager fetchAllByDate:self.dates];
     self.nvc = [self navigationController];
-    
-    // Do any additional setup after loading the view.
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+    /* Make table view cell stop looking like it was selected */
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 /* Given an NSIndexPath for our table view, return the Episode that
-    exists at that index path in the table. */
+    should go at that index path in the table. */
 - (Episode *) getEpisodeFromIndexPath:(NSIndexPath *)indexPath {
+    /* Get the date for this index. */
     NSDate *date = [self.dates objectAtIndex:[indexPath section]];
+    /* Get all of the episodes for this date. */
     NSArray *epsInSection = [self.tvShowsDict objectForKey:date];
-    return [epsInSection objectAtIndex:[indexPath row]];
+    /* Return the |indexPath.row|th episode  */
+    return [epsInSection objectAtIndex:indexPath.row];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
  
  /* Prepare information about selected cell to send to EpisodeViewController */
@@ -83,28 +90,11 @@
     return [self.dates count];
 }
 
-/* Returns the title of the section (date in string form) */
+/* Returns the title of the section (date in string form, e.g. "Jan. 2nd") */
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSDate *dateToShow = [self.dates objectAtIndex:section];
-    NSDateFormatter *monthAndDay = [[NSDateFormatter alloc] init];
-    
-    /* Get components so we can get day in int form */
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:dateToShow];
-    
-    /* Make sure we display "1st" "2nd" "3rd" and "nth" for all n > 3 */
-    if ([components day] == 1) {
-        [monthAndDay setDateFormat:@"MMM. d'st' '('EEE')'"];
-    } else if ([components day] == 2) {
-        [monthAndDay setDateFormat:@"MMM. d'nd' '('EEE')'"];
-    } else if ([components day] == 3) {
-        [monthAndDay setDateFormat:@"MMM. d'rd' '('EEE')'"];
-    } else {
-        [monthAndDay setDateFormat:@"MMM. d'th' '('EEE')'"];
-    }
-    
-    return [monthAndDay stringFromDate:dateToShow];
+    return [EpisodeDateUtility lexicalStringFromDate:dateToShow];
 }
 
 /* Returns number of rows in a certain section (# of episodes with a certain date) */
