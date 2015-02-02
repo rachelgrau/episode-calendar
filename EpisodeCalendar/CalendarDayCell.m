@@ -5,7 +5,6 @@
  */
 
 #import "CalendarDayCell.h"
-#import "EpisodeListTableView.h"
 
 @interface CalendarDayCell ()
 

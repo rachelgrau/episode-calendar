@@ -10,7 +10,8 @@
 @implementation Episode
 
 /* Override description method to return a nice string describing this episode */
-- (NSString *)description {
+- (NSString *)description
+{
     return [NSString stringWithFormat:@"\n{\n\tShow: %@ \n\tSeason: %d\n\tEpisode name: %@\n\tEpisode number: %d\n\tWatched: %@\n\tAir date: %@\n}", self.show, self.season, self.name, self.number, (self.watched ? @"true" : @"false"), [EpisodeDateUtility numericalStringFromDate:self.airDate]];
 }
 

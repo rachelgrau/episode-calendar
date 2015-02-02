@@ -1,10 +1,17 @@
-//
-//  EpisodeCalendarViewController.m
-//  EpisodeCalendar
-//
-//  Created by Rachel on 27/01/2015.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: EpisodeCalendarViewController.m
+ * -------------------------------------
+ * Implementation of the view controller that displays a month view 
+ * of a calendar with episodes that are playing on each day. It uses a 
+ * label to display the month & year, and left and right arrows that 
+ * allow the user to switch to the month before or after. It also contains
+ * a month view calendar in the form of a UICollectionView (each cell
+ * is a day in the calendar). So, this view controller serves as the 
+ * delegate and data source for that collection view. Additionally, each 
+ * collection view cell has a UITableView that displays a list of all 
+ * the shows on that day, so this view controller also serves as the 
+ * delegate & data source for those table views.
+ */
 
 #import "EpisodeCalendarViewController.h"
 #import "CalendarDayCell.h"
@@ -14,18 +21,17 @@
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UILabel *monthLabel;
-@property (strong, nonatomic) IBOutlet UILabel *yearLabel;
-@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
-@property NSDictionary *episodes;
-@property NSInteger lastMonth;
-@property NSInteger nextMonth;
+@property (strong, nonatomic) IBOutlet UILabel *monthLabel; // Month we are showing
+@property (strong, nonatomic) IBOutlet UILabel *yearLabel; // Year we are showing
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView; // Collection view of "days" in month
+@property NSDictionary *episodes; // Episodes we need to show for this month
 @end
 
 @implementation EpisodeCalendarViewController
 
 static int HEIGHT_PER_LINE = 15; // Cell height per line of text
 static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text on label
+static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,13 +42,19 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
     return self;
 }
 
-- (IBAction)leftArrowPressed:(id)sender {
+/* Callback for when the left arrow is pressed. We want to reload this view controller
+  with the month before instead. */
+- (IBAction)leftArrowPressed:(id)sender
+{
     self.dateToDisplay = [EpisodeDateUtility getDate:-1 monthsFrom:self.dateToDisplay];
     [self viewDidLoad];
     [self.collectionView reloadData];
 }
 
-- (IBAction)rightArrowPressed:(id)sender {
+/* Callback for when the right arrow is pressed. We want to reload this view controller
+ with the month after instead. */
+- (IBAction)rightArrowPressed:(id)sender
+{
     self.dateToDisplay = [EpisodeDateUtility getDate:1 monthsFrom:self.dateToDisplay];
     [self viewDidLoad];
     [self.collectionView reloadData];
@@ -77,9 +89,8 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
     NSInteger numRows = [self numberOfRowsInThisMonth];
     NSDate *lastDateNeeded = [self getDateForIndex:(numRows * 7) - 1];
     self.episodes = [EpisodeManager fetchAllBetween:firstDateNeeded and:lastDateNeeded];
-    
-    NSLog(@"%ld", (long)self.episodes.count);
-    
+
+    /* Set up collection view's layout */
     UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     flowLayout.minimumInteritemSpacing = 0;
     
@@ -88,18 +99,12 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
 
 /* Given an index of the collection view, return which date should be displayed at that indexPath. */
-- (NSDate *)getDateForIndex:(NSInteger )index {
+- (NSDate *)getDateForIndex:(NSInteger )index
+{
     /* Get first day of month */
     NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *comps = [cal components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit | NSWeekCalendarUnit) fromDate:self.dateToDisplay];
@@ -113,7 +118,8 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
 
 /* Returns the # of rows we need to display for the given month (4, 5, or 6 depending on how many days are in the month
  and what weekday the first of the month falls on) */
-- (NSInteger) numberOfRowsInThisMonth {
+- (NSInteger) numberOfRowsInThisMonth
+{
     /* Get first day of month & what weekday it falls on */
     NSInteger weekdayOfFirst = [EpisodeDateUtility getWeekDayOfFirstDayOfMonth:self.dateToDisplay];
     /* Get number of days in month */
@@ -131,52 +137,58 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
 
 #pragma mark - UICollectionView Datasource
 
-/* Return 7*4=28 if only need to display 4 weeks, 7*5=35 if need to display 5 weeks, etc */
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+/* Return number of days we need to display (number of rows * 7). */
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
+{
     NSInteger numRows = [self numberOfRowsInThisMonth];
     return numRows * 7;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView
+{
     return 1;
 }
-
 
 /* Return cell that should go at given indexpath */
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CalendarDayCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
     
+    /* Set date string */
     NSDate *dateOnCell = [self getDateForIndex:indexPath.row];
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:dateOnCell];
-    if ([components month] == 3) {
-        
-    }
     NSString *dateLabelString = [EpisodeDateUtility lexicalStringFromDate:dateOnCell];
-    
-    /* If not from this month, gray out text */
+    /* If not from this month, gray out date string text */
     if (![EpisodeDateUtility haveSameMonth:dateOnCell date2:self.dateToDisplay]) {
         cell.dateLabel.textColor = [UIColor grayColor];
     } else {
         cell.dateLabel.textColor = [UIColor blackColor];
     }
-    [cell setTableView];
     [cell setDateLabelText:dateLabelString];
+    
+    /* Set up table view. Make this view controller its delegate/data source. */
+    [cell setTableView];
+    /* Pass in indexPath.row as index, so we can figure out which date this tableview
+     is on at any point by looking at its index. */
     [cell setTableViewDataSourceDelegate:self index:indexPath.row];
     return cell;
 }
 
 #pragma mark – UICollectionViewDelegateFlowLayout
 
+/* Return size of the collection view cell that goes at indexPath. We need to calculate the size
+  based on how many rows we are displaying (more rows = smaller height). We also need to calculate
+  the width of the cell based on the width of the entire collection view (which changes depending
+  on orientation of iPad). */
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    /* Width = collection view width / 7 minus some padding. */
     CGFloat collectionViewWidth = self.view.bounds.size.width;
-    CGFloat cellWidth = collectionViewWidth/7 - 9;
+    CGFloat cellWidth = collectionViewWidth/7 - COLLECTION_VIEW_PADDING;
     
+    /* Height = collection view height / number of rows minus some padding. */
     NSInteger numRows = [self numberOfRowsInThisMonth];
     CGFloat collectionViewHeight = self.collectionView.bounds.size.height;
-    CGFloat cellHeight = collectionViewHeight/numRows - 9;
+    CGFloat cellHeight = collectionViewHeight/numRows - COLLECTION_VIEW_PADDING;
     CGSize retval = CGSizeMake(cellWidth, cellHeight);
     return retval;
 }
@@ -187,48 +199,59 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
+/* Don't want space between cells, so return 0. */
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    
     return 0;
 }
 
 #pragma mark - Orientation Change
 
+/* Reload our collection view if orientation changes so we can recalculate the size of all the cells and their 
+  subviews. */
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self.collectionView reloadData];
 }
 
 #pragma mark - UITableViewDataSource Methods
+/* This view controller serves as the delegate and data source for all the table views (each
+ collection cell has its own tableview listing the episodes that occur on that day). */
 
-/* Returns # of sections in the table view (number of dates) */
+/* Returns # of sections in the table view, which is just 1. */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-/* Returns cell that should go at given index path */
+/* Returns cell that should go at given index path. We need to get the date that this tableView is 
+  displaying episodes for, and then retrieve a list of all the episodes for that date. Then, we just
+  return the |indexPath.row|th episode in that list. */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /* Get a cell. */
     static NSString *episodeTableIdentifier = @"EpisodeTableCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:episodeTableIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
     cell.textLabel.font = [UIFont systemFontOfSize:10];
+    
+    /* Get the date for this cell, which we figure out by looking at the tag on the tableview. The tag is the index
+      of the collection view cell that this table view belongs to. */
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
     
     /* Check if there are episodes for this date */
     NSArray *arr = [self.episodes objectForKey:dateOnCell];
     if (arr) {
+        /* Get the cell text. */
         Episode *ep = arr[indexPath.row];
         NSString *cellText = [NSString stringWithFormat:@"%@ (%dx%d)", ep.show, ep.season, ep.number];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        /* Gray out if not from this month */
+        /* Gray out if it's from last month or next month. */
         if (![EpisodeDateUtility haveSameMonth:self.dateToDisplay date2:dateOnCell]) {
             cell.textLabel.textColor = [UIColor grayColor];
         }
-        /* Strikethrough font if watched */
+        /* Strikethrough font if watched. */
         if (ep.watched) {
             NSMutableAttributedString *strikeThroughString = [[NSMutableAttributedString alloc] initWithString:cellText];
             [strikeThroughString addAttribute:NSStrikethroughStyleAttributeName
@@ -238,10 +261,10 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
         } else {
             cell.textLabel.text = [NSString stringWithFormat:@"• %@", cellText];
         }
+        /* Make words wrap onto multiple lines so they don't get cut off. */
         cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         cell.textLabel.numberOfLines = 0;
     }
-    
     return cell;
 }
 
