@@ -14,3 +14,5 @@ TO DO: ipad version
 - Fetch all shows once at beginning and store them in a dictionary based on date
 - Add day labels (Sun, Mon, Tues etc)
 - Fix text wrap: depends on cell width
+- Comment EpisodeManager
+- Show all shows for given season
