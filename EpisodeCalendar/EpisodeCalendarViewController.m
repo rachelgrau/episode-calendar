@@ -146,7 +146,6 @@ static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CalendarDayCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CalendarCell" forIndexPath:indexPath];
-//    cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     NSDate *dateOnCell = [self getDateForIndex:indexPath.row];
     NSCalendar* calendar = [NSCalendar currentCalendar];

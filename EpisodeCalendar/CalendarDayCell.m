@@ -26,6 +26,8 @@
     return self;
 }
 
+/* If this cell doesn't yet have a tableview, make one and set up its look (white background,
+  no separator, scroll enabled. Otherwise just make sure the frame of the tableview is correct. */
 - (void)setTableView
 {
     CGRect tableViewFrame = self.episodeContentView.frame;
@@ -42,6 +44,7 @@
     }
 }
 
+/* Set episodeContentView and tableView's frames */
 - (void)layoutSubviews
 {
     CGRect backgroundFrame = self.frame;
@@ -49,21 +52,19 @@
     episodeContentFrame.size.width = backgroundFrame.size.width;
     self.episodeContentView.frame = episodeContentFrame;
     self.tableView.frame = episodeContentFrame;
+    self.tableView.frame = self.episodeContentView.frame;
     
     [super layoutSubviews];
-    self.tableView.frame = self.episodeContentView.frame;
 }
 
+/* Sets the date label text to be |dateString| with font 12 */
 - (void)setDateLabelText:(NSString *)dateString
 {
     self.dateLabel.text = dateString;
     self.dateLabel.font = [UIFont systemFontOfSize:12];
 }
 
-- (void)setShowsArray:(NSMutableArray *)shows {
-    
-}
-
+/* Set table view's data source, delegate, and tag. Reload tableview. */
 -(void)setTableViewDataSourceDelegate:(id<UITableViewDataSource, UITableViewDelegate>)dataSourceDelegate index:(NSInteger)index
 {
     self.tableView.dataSource = dataSourceDelegate;
