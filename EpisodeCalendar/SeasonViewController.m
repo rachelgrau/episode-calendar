@@ -36,6 +36,7 @@
     self.showLabel.font = [UIFont boldSystemFontOfSize:18];
     self.episodes = [EpisodeManager fetchEpisodesFromShow:self.episode.show season:self.episode.season];
     self.tableView.allowsSelection = NO;
+    self.tableView.separatorColor = [UIColor groupTableViewBackgroundColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,6 +72,12 @@
         cell = [[EpisodeTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
     Episode *ep = [self getEpisodeFromIndexPath:indexPath];
+    if (ep.number == self.episode.number) {
+        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    } else {
+        cell.backgroundColor = [UIColor whiteColor];
+    }
+    
     NSString *episodeSeason = [NSString stringWithFormat:@"%dx%d", ep.season, ep.number];
     [cell setUpperLeftLabelText:episodeSeason];
     [cell setLowerLeftLabelText:ep.name];
