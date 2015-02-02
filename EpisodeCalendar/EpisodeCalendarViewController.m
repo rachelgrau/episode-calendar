@@ -21,11 +21,16 @@
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) IBOutlet UILabel *daysLabel;
+
 @property (strong, nonatomic) IBOutlet UILabel *monthLabel; // Month we are showing
 @property (strong, nonatomic) IBOutlet UILabel *yearLabel; // Year we are showing
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView; // Collection view of "days" in month
 @property NSDictionary *episodes; // Episodes we need to show for this month
 @end
+
+static NSString *landscapeDaysText = @"Sun                       Mon                      Tues                       Wed                      Thurs                       Fri                      Sat";
+static NSString *portraitDaysText = @"Sun               Mon               Tues               Wed               Thurs               Fri               Sat";
 
 @implementation EpisodeCalendarViewController
 
@@ -211,6 +216,11 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self.collectionView reloadData];
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+        self.daysLabel.text = portraitDaysText;
+    } else {
+        self.daysLabel.text = landscapeDaysText;
+    }
 }
 
 #pragma mark - UITableViewDataSource Methods
