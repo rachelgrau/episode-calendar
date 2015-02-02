@@ -105,7 +105,8 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
-
+/* Fetch all episodes between |date1| and |date2|. Return them in a dictionary where
+  keys = air dates and values = list of episodes with that date. */
 + (NSDictionary *) fetchAllBetween:(NSDate *)date1 and:(NSDate *)date2
 {
     NSMutableDictionary *ret = [[NSMutableDictionary alloc] init];
@@ -134,6 +135,8 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
+/* Fetch all episodes from the show with name |show| and season |season|. Return them
+ in an array, sorted by episode number. */
 + (NSArray *)fetchEpisodesFromShow:(NSString *)show season:(int) season
 {
     NSMutableArray *ret = [[NSMutableArray alloc] init];

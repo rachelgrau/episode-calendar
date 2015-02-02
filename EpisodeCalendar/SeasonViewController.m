@@ -1,10 +1,10 @@
-//
-//  SeasonViewController.m
-//  EpisodeCalendar
-//
-//  Created by Rachel on 2/1/15.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: SeasonViewController.m
+ * ------------------------------
+ * Implementation of Season View Controller. This view controller is the 
+ * delegate and data source for its table view, where it displays the list
+ * of all episodes in the same show/season as |episode|.
+ */
 
 #import "SeasonViewController.h"
 #import "EpisodeManager.h"
@@ -59,10 +59,6 @@
     return self.episodes.count;
 }
 
-- (Episode *)getEpisodeFromIndexPath:(NSIndexPath *)indexPath {
-    return [self.episodes objectAtIndex:indexPath.row];
-}
-
 /* Returns cell that should go at given index path */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -71,7 +67,7 @@
     if (cell == nil) {
         cell = [[EpisodeTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
-    Episode *ep = [self getEpisodeFromIndexPath:indexPath];
+    Episode *ep = [self.episodes objectAtIndex:indexPath.row];
     if (ep.number == self.episode.number) {
         cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     } else {
