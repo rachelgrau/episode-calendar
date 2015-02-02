@@ -35,7 +35,7 @@
         self.tableView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:self.tableView];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableView.userInteractionEnabled = NO;
+        self.tableView.scrollEnabled = YES;
     }
     else {
         self.tableView.frame = tableViewFrame;

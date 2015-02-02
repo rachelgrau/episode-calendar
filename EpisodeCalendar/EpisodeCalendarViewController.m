@@ -24,6 +24,9 @@
 
 @implementation EpisodeCalendarViewController
 
+static int HEIGHT_PER_LINE = 15; // Cell height per line of text
+static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text on label
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -212,9 +215,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:episodeTableIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
-//        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-//        cell.textLabel.numberOfLines = 0;
-
     }
     cell.textLabel.font = [UIFont systemFontOfSize:10];
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
@@ -238,9 +238,9 @@
             cell.textLabel.attributedText = strikeThroughString;
         } else {
             cell.textLabel.text = [NSString stringWithFormat:@"• %@", cellText];
-            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            cell.textLabel.numberOfLines = 0;
         }
+        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        cell.textLabel.numberOfLines = 0;
     }
     
     return cell;
@@ -258,9 +258,22 @@
     }
 }
 
+/* Returns the height for the table cell at indexPath. To calculate this, we need to find out how 
+  long the text will be in that cell...if it's less than 12 chars, we only need 1 line to display it,
+  so we can return HEIGHT_PER_LINE. If it's more than 12, we may need multiple lines. */
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 35;
+    NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
+    NSArray *arr = [self.episodes objectForKey:dateOnCell];
+    if (arr) {
+        Episode *ep = arr[indexPath.row];
+        NSString *cellText = [NSString stringWithFormat:@"%@ (%dx%d)", ep.show, ep.season, ep.number];
+        NSInteger length = [cellText length];
+        /* Add HEIGHT_PER_LINE to height for every 12 chars */
+        CGFloat height = HEIGHT_PER_LINE + (length/MAX_CHARS_PER_LINE)*HEIGHT_PER_LINE;
+        return height;
+    }
+    return 0;
 }
 
 
