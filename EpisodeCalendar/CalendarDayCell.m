@@ -28,18 +28,28 @@
 
 - (void)setTableView
 {
+    CGRect tableViewFrame = self.episodeContentView.frame;
     if (!self.tableView){
-        self.tableView = [[UITableView alloc] initWithFrame:self.episodeContentView.frame];
+        self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame];
         [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"EpisodeTableCell"];
         self.tableView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:self.tableView];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.userInteractionEnabled = NO;
     }
+    else {
+        self.tableView.frame = tableViewFrame;
+    }
 }
 
 - (void)layoutSubviews
 {
+    CGRect backgroundFrame = self.frame;
+    CGRect episodeContentFrame = self.episodeContentView.frame;
+    episodeContentFrame.size.width = backgroundFrame.size.width;
+    self.episodeContentView.frame = episodeContentFrame;
+    self.tableView.frame = episodeContentFrame;
+    
     [super layoutSubviews];
     self.tableView.frame = self.episodeContentView.frame;
 }

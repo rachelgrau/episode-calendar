@@ -212,6 +212,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:episodeTableIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
+//        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+//        cell.textLabel.numberOfLines = 0;
+
     }
     cell.textLabel.font = [UIFont systemFontOfSize:10];
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
@@ -221,8 +224,6 @@
     if (arr) {
         Episode *ep = arr[indexPath.row];
         NSString *cellText = [NSString stringWithFormat:@"%@ (%dx%d)", ep.show, ep.season, ep.number];
-        cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-        cell.textLabel.numberOfLines = 0;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         /* Gray out if not from this month */
         if (![EpisodeDateUtility haveSameMonth:self.dateToDisplay date2:dateOnCell]) {
@@ -236,7 +237,9 @@
                                         range:NSMakeRange(0, [strikeThroughString length])];
             cell.textLabel.attributedText = strikeThroughString;
         } else {
-            cell.textLabel.text = cellText;
+            cell.textLabel.text = [NSString stringWithFormat:@"• %@", cellText];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.numberOfLines = 0;
         }
     }
     
@@ -257,7 +260,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 20;
+    return 35;
 }
 
 
