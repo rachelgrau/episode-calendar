@@ -1,11 +1,9 @@
-//
-//  EpisodeViewController.m
-//  EpisodeCalendar
-//
-//  Created by Rachel on 25/01/2015.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
-
+/**
+ * File: EpisodeViewController.m
+ * ------------------------------
+ * Implementation of EpisodeViewController. Just sets some 
+ * labels.
+ */
 #import "EpisodeViewController.h"
 
 @interface EpisodeViewController ()
@@ -23,7 +21,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -41,7 +38,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

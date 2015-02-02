@@ -4,7 +4,9 @@
  * Implementation of the view controller for the iphone Episode Calendar. 
  * Uses a table view to display "sections" (dates). Each section/date
  * has a list of episodes that occur on that date. So, this view controller
- * serves as the data source and delegate for that table view.
+ * serves as the data source and delegate for that table view. When you click
+ * on a cell, it transitions to another view controller that displays some
+ * details about the show.
  *
  * Design: store a dictionary where keys = dates and values = a list
  * of episodes that occur on that date. Also store an array of all the 
