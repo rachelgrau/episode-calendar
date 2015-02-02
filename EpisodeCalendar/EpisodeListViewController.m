@@ -19,7 +19,7 @@
 #import "EpisodeListViewController.h"
 #import "Episode.h"
 #import "EpisodeManager.h"
-#import "EpisodeViewController.h"
+#import "SeasonViewController.h"
 #import "EpisodeDateUtility.h"
 
 @interface EpisodeListViewController ()
@@ -72,15 +72,13 @@
  /* Prepare information about selected cell to send to EpisodeViewController */
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
  {
-     if ([segue.identifier isEqualToString:@"toEpisodeDetail"]) {
-         EpisodeViewController *destViewController = segue.destinationViewController;
+     if ([segue.identifier isEqualToString:@"toSeason"]) {
+         SeasonViewController *destViewController = segue.destinationViewController;
          /* Get the selected episode based on index path */
          NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
          Episode *ep = [self getEpisodeFromIndexPath:indexPath];
-         /* Set properties of EpisodeViewController to display info about selected episode */
-         [destViewController setName:ep.name];
-         [destViewController setShow:ep.show];
-         [destViewController setSeason:ep.season];
+         /* Set destination view controller's episode */
+         destViewController.episode = ep;
      }
  }
 

@@ -134,4 +134,30 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
++ (NSArray *)fetchEpisodesFromShow:(NSString *)show season:(int) season
+{
+    NSMutableArray *ret = [[NSMutableArray alloc] init];
+    NSData *jsonData = [EpisodeManager getJsonForUrlString:urlString];
+    if (jsonData) {
+        NSArray *objs = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+        for (NSDictionary *episodeDictionary in objs) {
+            Episode *ep = [EpisodeManager getEpisodeFromDictionary:episodeDictionary];
+            
+            /* Check if current episode is from |season| of |show| */
+            if ((ep.season == season) && ([ep.show isEqualToString:show])) {
+                [ret addObject:ep];
+            }
+        }
+        [ret sortUsingComparator:^NSComparisonResult(id obj1, id obj2)
+         {
+             Episode *ep1 = (Episode *)obj1;
+             Episode *ep2 = (Episode *)obj2;
+             return (ep1.number > ep2.number);
+         }];
+        return ret;
+    }
+    return nil;
+
+}
+
 @end

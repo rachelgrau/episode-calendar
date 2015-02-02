@@ -12,5 +12,6 @@
 + (NSArray *)fetchAll;
 + (NSDictionary *) fetchAllByDate:(NSMutableArray *)resultDates;
 + (NSDictionary *) fetchAllBetween:(NSDate *)date1 and:(NSDate *)date2;
++ (NSArray *)fetchEpisodesFromShow:(NSString *)show season:(int) season;
 
 @end

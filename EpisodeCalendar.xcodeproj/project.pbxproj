@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC0CBE3C1A7F52CF00E7236D /* SeasonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0CBE3B1A7F52CF00E7236D /* SeasonViewController.m */; };
+		CC0CBE3F1A7F589A00E7236D /* EpisodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0CBE3E1A7F589A00E7236D /* EpisodeTableViewCell.m */; };
 		CC35C9F21A7322D100627EA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC35C9F11A7322D100627EA3 /* Foundation.framework */; };
 		CC35C9F41A7322D100627EA3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC35C9F31A7322D100627EA3 /* CoreGraphics.framework */; };
 		CC35C9F61A7322D100627EA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC35C9F51A7322D100627EA3 /* UIKit.framework */; };
@@ -43,6 +45,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CC0CBE3A1A7F52CF00E7236D /* SeasonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeasonViewController.h; sourceTree = "<group>"; };
+		CC0CBE3B1A7F52CF00E7236D /* SeasonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeasonViewController.m; sourceTree = "<group>"; };
+		CC0CBE3D1A7F589A00E7236D /* EpisodeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeTableViewCell.h; sourceTree = "<group>"; };
+		CC0CBE3E1A7F589A00E7236D /* EpisodeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeTableViewCell.m; sourceTree = "<group>"; };
 		CC35C9EE1A7322D100627EA3 /* EpisodeCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpisodeCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC35C9F11A7322D100627EA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CC35C9F31A7322D100627EA3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -147,6 +153,10 @@
 				CC81F09E1A7EC68D006DCA92 /* EpisodeViewController.m */,
 				CC35CA011A7322D100627EA3 /* AppDelegate.m */,
 				CC35CA031A7322D100627EA3 /* Main_iPhone.storyboard */,
+				CC0CBE3D1A7F589A00E7236D /* EpisodeTableViewCell.h */,
+				CC0CBE3E1A7F589A00E7236D /* EpisodeTableViewCell.m */,
+				CC0CBE3A1A7F52CF00E7236D /* SeasonViewController.h */,
+				CC0CBE3B1A7F52CF00E7236D /* SeasonViewController.m */,
 				CC35CA061A7322D100627EA3 /* Main_iPad.storyboard */,
 				CC35CA0C1A7322D100627EA3 /* Images.xcassets */,
 				CC35C9F81A7322D100627EA3 /* Supporting Files */,
@@ -327,11 +337,13 @@
 				CC81F0A51A7EC739006DCA92 /* EpisodeDateUtility.m in Sources */,
 				CC81F09F1A7EC68D006DCA92 /* EpisodeViewController.m in Sources */,
 				CCC486271A74312800C6CEC2 /* Episode.m in Sources */,
+				CC0CBE3F1A7F589A00E7236D /* EpisodeTableViewCell.m in Sources */,
 				CC77C8521A79760600FF5575 /* CalendarDayCell.m in Sources */,
 				CC63AE1F1A7785A000F9B1AD /* EpisodeCalendarViewController.m in Sources */,
 				CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */,
 				CC35C9FE1A7322D100627EA3 /* main.m in Sources */,
 				CC81F0AF1A7EDB2B006DCA92 /* EpisodeManager.m in Sources */,
+				CC0CBE3C1A7F52CF00E7236D /* SeasonViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
