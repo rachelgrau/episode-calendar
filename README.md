@@ -13,5 +13,4 @@ TO DO: ipad version
   - Shows for selected day?
 - Fetch all shows once at beginning and store them in a dictionary based on date
 - Add day labels (Sun, Mon, Tues etc)
-- Comment/clean up: 
-  - EpisodeViewController.h/m
+- EpisodeViewController: make labels wrap
