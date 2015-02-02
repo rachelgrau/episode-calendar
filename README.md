@@ -14,5 +14,4 @@ TO DO: ipad version
 - Fetch all shows once at beginning and store them in a dictionary based on date
 - Add day labels (Sun, Mon, Tues etc)
 - Comment/clean up: 
-  - EpisodeListViewController.h/m
   - EpisodeViewController.h/m
