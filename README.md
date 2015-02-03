@@ -11,5 +11,4 @@ TO DO: ipad version
   - Shows for selected day?
 - Fix day labels (Sun, Mon, Tues etc)
 - Fix text wrap: depends on cell width
-- Fix month/year label positioning
 - Highlight current day
