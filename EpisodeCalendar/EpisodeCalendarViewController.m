@@ -22,20 +22,28 @@
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 
+/* Label that holds days ("Sun Mon Tues Wed Thurs Fri Sat"), spacing between days needs to be adjusted when orientation changes */
 @property (strong, nonatomic) IBOutlet UILabel *daysLabel;
-@property (strong, nonatomic) IBOutlet UILabel *monthLabel; // Month we are showing
-@property (strong, nonatomic) IBOutlet UILabel *yearLabel; // Year we are showing
-@property (strong, nonatomic) IBOutlet UICollectionView *collectionView; // Collection view of "days" in month
-@property NSDictionary *episodes; // Episodes we need to show for this month
-@property UITableView *selectedTableView; /* When user selects an episode, store the tableview
-                                             it was in here so we can deselect it later */
+/* Month we are showing */
+@property (strong, nonatomic) IBOutlet UILabel *monthLabel;
+/* Year we are showing */
+@property (strong, nonatomic) IBOutlet UILabel *yearLabel;
+/* Collection view of "days" in the month */
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
+/* Episodes we need to show for this month */
+@property NSDictionary *episodes;
+/* When user selects an episode, store the tableview it was in here so we can deselect it later */
+@property UITableView *selectedTableView;
 @end
 
+/* Label of days with spacing adjusted for landscape mode */
 static NSString *landscapeDaysText = @"Sun                       Mon                      Tues                       Wed                      Thurs                       Fri                      Sat";
+/* Label of days with spacing adjusted for portrait mode */
 static NSString *portraitDaysText = @"Sun               Mon               Tues               Wed               Thurs               Fri               Sat";
 
 @implementation EpisodeCalendarViewController
 
+/* CONSTANTS */
 static int HEIGHT_PER_LINE = 15; // Cell height per line of text
 static int MAX_CHARS_PER_LINE = 12; // Max # of chars that fit in a line of text on label
 static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
@@ -44,7 +52,6 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -79,12 +86,14 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     }
 }
 
+/* Hide the nav bar and adjust layout for orientation  */
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;
     [self adjustForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
 }
 
+/* Deselect table cell when we come back from season view controller */
 -(void)viewDidAppear:(BOOL)animated
 {
     [self.selectedTableView deselectRowAtIndexPath:[self.selectedTableView indexPathForSelectedRow] animated:YES];
@@ -94,6 +103,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 {
     [super viewDidLoad];
     
+    /* Start by showing current date */
     if (!self.dateToDisplay) {
         self.dateToDisplay = [NSDate date];
     }

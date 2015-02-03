@@ -1,6 +1,3 @@
-//
-//  EpisodeTableViewCell.m
-//  EpisodeCalendar
 /**
  * File: EpisodeTableViewCell.m
  * ------------------------------
@@ -27,28 +24,28 @@
 
 - (void)awakeFromNib
 {
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
+/* Set upper left label and font */
 -(void)setUpperLeftLabelText:(NSString *)text
 {
     self.upperLeftLabel.text = text;
     self.upperLeftLabel.font = [UIFont systemFontOfSize:12];
 }
 
+/* Set lower left label and font */
 -(void)setLowerLeftLabelText:(NSString *)text
 {
     self.lowerLeftLabel.text = text;
     self.lowerLeftLabel.font = [UIFont systemFontOfSize:8];
 }
 
+/* Set right label and font */
 -(void)setRightLabelText:(NSString *)text
 {
     self.rightLabel.text = text;

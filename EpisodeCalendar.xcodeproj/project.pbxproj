@@ -27,7 +27,6 @@
 		CC63AE231A7787EC00F9B1AD /* leftArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CC63AE221A7787EC00F9B1AD /* leftArrow.png */; };
 		CC63AE251A7787F600F9B1AD /* rightArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CC63AE241A7787F600F9B1AD /* rightArrow.png */; };
 		CC77C8521A79760600FF5575 /* CalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC77C8511A79760600FF5575 /* CalendarDayCell.m */; };
-		CC81F09F1A7EC68D006DCA92 /* EpisodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81F09E1A7EC68D006DCA92 /* EpisodeViewController.m */; };
 		CC81F0A51A7EC739006DCA92 /* EpisodeDateUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81F0A41A7EC739006DCA92 /* EpisodeDateUtility.m */; };
 		CC81F0AF1A7EDB2B006DCA92 /* EpisodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81F0AE1A7EDB2B006DCA92 /* EpisodeManager.m */; };
 		CCAFF5DC1A7585C70093936D /* EpisodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAFF5DB1A7585C70093936D /* EpisodeListViewController.m */; };
@@ -73,8 +72,6 @@
 		CC63AE241A7787F600F9B1AD /* rightArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightArrow.png; sourceTree = "<group>"; };
 		CC77C8501A79760600FF5575 /* CalendarDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayCell.h; sourceTree = "<group>"; };
 		CC77C8511A79760600FF5575 /* CalendarDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayCell.m; sourceTree = "<group>"; };
-		CC81F09D1A7EC68D006DCA92 /* EpisodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EpisodeViewController.h; sourceTree = "<group>"; };
-		CC81F09E1A7EC68D006DCA92 /* EpisodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EpisodeViewController.m; sourceTree = "<group>"; };
 		CC81F0A31A7EC739006DCA92 /* EpisodeDateUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeDateUtility.h; path = ../EpisodeDateUtility.h; sourceTree = "<group>"; };
 		CC81F0A41A7EC739006DCA92 /* EpisodeDateUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeDateUtility.m; path = ../EpisodeDateUtility.m; sourceTree = "<group>"; };
 		CC81F0AD1A7EDB2B006DCA92 /* EpisodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeManager.h; path = ../EpisodeManager.h; sourceTree = "<group>"; };
@@ -149,8 +146,6 @@
 				CC63AE201A7785A800F9B1AD /* Episode List (phone) */,
 				CC81F09C1A7EC641006DCA92 /* Model */,
 				CC35CA001A7322D100627EA3 /* AppDelegate.h */,
-				CC81F09D1A7EC68D006DCA92 /* EpisodeViewController.h */,
-				CC81F09E1A7EC68D006DCA92 /* EpisodeViewController.m */,
 				CC35CA011A7322D100627EA3 /* AppDelegate.m */,
 				CC35CA031A7322D100627EA3 /* Main_iPhone.storyboard */,
 				CC0CBE3D1A7F589A00E7236D /* EpisodeTableViewCell.h */,
@@ -335,7 +330,6 @@
 			files = (
 				CC35CA021A7322D100627EA3 /* AppDelegate.m in Sources */,
 				CC81F0A51A7EC739006DCA92 /* EpisodeDateUtility.m in Sources */,
-				CC81F09F1A7EC68D006DCA92 /* EpisodeViewController.m in Sources */,
 				CCC486271A74312800C6CEC2 /* Episode.m in Sources */,
 				CC0CBE3F1A7F589A00E7236D /* EpisodeTableViewCell.m in Sources */,
 				CC77C8521A79760600FF5575 /* CalendarDayCell.m in Sources */,

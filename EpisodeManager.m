@@ -14,7 +14,9 @@
 
 static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/rachel/episodecalendar-data.json";
 
-
+/* 
+ * Given a urlString, returns NSData.
+ */
 + (NSData *)getJsonForUrlString:(NSString *)urlString {
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
@@ -22,7 +24,10 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return jsonData;
 }
 
-/* Given a dictionary that represents an Episode object, returns an Episode object with its fields filled out based on what was in the dictionary*/
+/* 
+ * Given a dictionary that represents an Episode object, returns an Episode object 
+ * with its fields filled out based on what was in the dictionary
+ */
 + (Episode *)getEpisodeFromDictionary:(NSDictionary *)dictionary {
     Episode *ep = [[Episode alloc] init];
     ep.name = [dictionary objectForKey:@"name"];
@@ -35,7 +40,8 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
 }
 
 /*
- * Returns an array of all episodes (Episode objects) fetched from urlString, or nil on error
+ * Returns an array of all episodes (Episode objects) fetched from urlString.
+ * Returns nil on error
  */
 + (NSArray *)fetchAll
 {
@@ -54,24 +60,10 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
-+ (void)insertSorted:(NSMutableArray *)arr withDateString:(NSString *)dateString
-{
-    NSDate *toInsert = [EpisodeDateUtility dateFromString:dateString];
-    int i = 0;
-    for (NSString *curr in arr) {
-        NSDate *currDate = [EpisodeDateUtility dateFromString:curr];
-        if ([currDate isEqualToDate:toInsert]) return;
-        if ([[currDate laterDate:toInsert] isEqualToDate:toInsert]) {
-            [arr insertObject:dateString atIndex:i];
-            return;
-        }
-        i++;
-    }
-}
-
 /*
- * Returns a DICTIONARY where keys = date string values = array of eps with that date, or nil on error
- * Sets the array of dates
+ * Returns a DICTIONARY where keys = dates and values = array of eps with that date, or nil on error.
+ * Sets the array of dates to be all of the dates but in sorted order (latest date to earliest date).
+ * Returns nil on error.
  */
 + (NSDictionary *)fetchAllByDate:(NSMutableArray *)resultDates
 {
@@ -105,8 +97,11 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
-/* Fetch all episodes between |date1| and |date2|. Return them in a dictionary where
-  keys = air dates and values = list of episodes with that date. */
+/* 
+ * Fetches all episodes between |date1| and |date2|. Returns them in a dictionary where
+ * keys = air dates and values = list of episodes with that date.
+ * Returns nil on error.
+ */
 + (NSDictionary *) fetchAllBetween:(NSDate *)date1 and:(NSDate *)date2
 {
     NSMutableDictionary *ret = [[NSMutableDictionary alloc] init];
@@ -135,8 +130,11 @@ static NSString *const urlString = @"https://s3.amazonaws.com/lab.nearpod.com/ra
     return nil;
 }
 
-/* Fetch all episodes from the show with name |show| and season |season|. Return them
- in an array, sorted by episode number. */
+/* 
+ * Fetches all episodes from the show with name |show| and season |season|.
+ * Returns them in an array, sorted by episode number.
+ * Returns nil on error.
+ */
 + (NSArray *)fetchEpisodesFromShow:(NSString *)show season:(int) season
 {
     NSMutableArray *ret = [[NSMutableArray alloc] init];

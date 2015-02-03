@@ -30,20 +30,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    /* Set up labels */
     self.seasonLabel.text = [NSString stringWithFormat:@"Season %d", self.episode.season];
     self.seasonLabel.font = [UIFont systemFontOfSize:16];
     self.showLabel.text = self.episode.show;
     self.showLabel.font = [UIFont boldSystemFontOfSize:18];
-    self.episodes = [EpisodeManager fetchEpisodesFromShow:self.episode.show season:self.episode.season];
+    
+    /* Set up tableview */
     self.tableView.allowsSelection = NO;
     self.tableView.separatorColor = [UIColor groupTableViewBackgroundColor];
+    
+    /* Show navigation bar */
     self.navigationController.navigationBarHidden = NO;
+    
+    /* Fetch episodes for season & show we are displaying */
+    self.episodes = [EpisodeManager fetchEpisodesFromShow:self.episode.show season:self.episode.season];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UITableView Datasource
