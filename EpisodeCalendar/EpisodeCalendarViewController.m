@@ -205,6 +205,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     /* Set date string */
     NSDate *dateOnCell = [self getDateForIndex:indexPath.row];
     NSString *dateLabelString = [EpisodeDateUtility lexicalStringFromDate:dateOnCell];
+    
     /* If not from this month, gray out date string text */
     if (![EpisodeDateUtility haveSameMonth:dateOnCell date2:self.dateToDisplay]) {
         cell.dateLabel.textColor = [UIColor grayColor];
@@ -213,7 +214,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     }
     [cell setDateLabelText:dateLabelString];
     
-    /* Set up table view. Make this view controller its delegate/data source. */
+    /* Set up its table view. Make this view controller its delegate/data source. */
     [cell setTableView];
     /* Pass in indexPath.row as index, so we can figure out which date this tableview
      is on at any point by looking at its index. */
@@ -303,6 +304,8 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
         /* Gray out if it's from last month or next month. */
         if (![EpisodeDateUtility haveSameMonth:self.dateToDisplay date2:dateOnCell]) {
             cell.textLabel.textColor = [UIColor grayColor];
+        } else {
+            cell.textLabel.textColor = [UIColor blackColor];
         }
         /* Strikethrough font if watched. */
         if (ep.watched) {
