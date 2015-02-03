@@ -41,9 +41,9 @@
  * Method: isDateBetweenDate
  * Usage: BOOL *between = [EpisodeDateUtility isDate:date betweenDate:firstDate andDate: lastDate];
  * -------------------------------------------------------------------------------
- * Returns true if |date| is between |firstDate| and |lastDate|. 
- * Returns true if |date| is equal to |firstDate| or |lastDate|. 
- * Returns false otherwise.
+ * Returns YES if |date| is between |firstDate| and |lastDate|.
+ * Returns YES if |date| is equal to |firstDate| or |lastDate|.
+ * Returns NO otherwise.
  */
 + (BOOL)isDate:(NSDate *)date betweenDate:(NSDate *)firstDate andDate:(NSDate *)lastDate;
 
@@ -51,8 +51,8 @@
  * Method: haveSameMonth
  * Usage: BOOL *sameMonth = [EpisodeDateUtility haveSameMonth:date1 date2:date2];
  * -------------------------------------------------------------------------------
- * Returns true if |date1| is in the same month as |date2| and false otherwise.
- * Does not take the dates' years into consideration, so if |date1| is January 1, 2014 and |date2| is January 23, 1994, this method will return true.
+ * Returns YES if |date1| is in the same month as |date2| and NO otherwise.
+ * Does not take the dates' years into consideration, so if |date1| is January 1, 2014 and |date2| is January 23, 1994, this method will return YES.
  */
 + (BOOL)haveSameMonth:(NSDate *)date1 date2:(NSDate *)date2;
 
@@ -73,4 +73,13 @@
  * For example, if |date| is January 22, 2015, this method will return 5 because January 1, 2015 occurred on a Thursday.
  */
 + (NSInteger)getWeekDayOfFirstDayOfMonth:(NSDate *)date;
+
+/**
+ * Method: isDate sameDayAsDate
+ * Usage: BOOL sameDate = [EpisodeDateUtility isDate:date1 sameDayAsDate:date2];
+ * -------------------------------------------------------------------------------
+ * Returns YES if the 2 given dates have the same day, month, and year. Returns NO
+ * otherwise.
+ */
++ (BOOL)isDate:(NSDate *)date1 sameDayAsDate:(NSDate *)date2;
 @end

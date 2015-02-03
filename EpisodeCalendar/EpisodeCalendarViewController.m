@@ -204,6 +204,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     
     /* Set date string */
     NSDate *dateOnCell = [self getDateForIndex:indexPath.row];
+
     NSString *dateLabelString = [EpisodeDateUtility lexicalStringFromDate:dateOnCell];
     
     /* If not from this month, gray out date string text */

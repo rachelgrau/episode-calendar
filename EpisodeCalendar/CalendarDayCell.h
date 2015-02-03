@@ -48,4 +48,5 @@
  * Sets up and displays a table view for this cell, if one wasn't already set up.
  */
 - (void)setTableView;
+
 @end

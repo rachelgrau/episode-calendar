@@ -25,13 +25,25 @@
     return [dateFormat stringFromDate:date];
 }
 
+/* Returns YES if date1 and date2 have the same day, month and year. Returns NO otherwise. */
++ (BOOL)isDate:(NSDate *)date1 sameDayAsDate:(NSDate *)date2 {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components1 = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date1];
+    NSDateComponents *components2 = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date2];
+    
+    if ([components1 year] != [components2 year]) return NO;
+    else if ([components1 month] != [components2 month]) return NO;
+    else if ([components1 day] != [components2 day]) return NO;
+    else return YES;
+}
+
 /* Given a date, return a string in the form "MMM. d'st'". For example, "Jan. 28th," "Feb. 1st" or "Mar. 3rd" */
 + (NSString *)lexicalStringFromDate:(NSDate *)date
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     /* Get components so we can get day in int form */
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
     
     /* Make sure we display "1st" "2nd" "3rd" and "nth" for all n > 3 */
     if ([components day] == 1) {
@@ -46,7 +58,7 @@
     return [dateFormat stringFromDate:date];
 }
 
-/* Returns true if |firstDate| <= |date| <= |lastDate| */
+/* Returns YES if |firstDate| <= |date| <= |lastDate| */
 + (BOOL)isDate:(NSDate *)date betweenDate:(NSDate *)firstDate andDate:(NSDate *)lastDate
 {
     if ([date compare:lastDate] == NSOrderedDescending) {
@@ -60,15 +72,15 @@
     }
 }
 
-/* Returns true if the two given dates have the same month, and false otherwise. */
+/* Returns YES if the two given dates have the same month, and NO otherwise. */
 + (BOOL)haveSameMonth:(NSDate *)date1 date2:(NSDate *)date2
 {
     NSDateComponents *comps1 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date1];
     
     NSDateComponents *comps2 = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date2];
     
-    if ([comps1 month] == [comps2 month]) return true;
-    else return false;
+    if ([comps1 month] == [comps2 month]) return YES;
+    else return NO;
 }
 
 
