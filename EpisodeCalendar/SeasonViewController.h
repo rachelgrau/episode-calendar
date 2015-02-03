@@ -6,6 +6,10 @@
  * but highlighted gray.
  * 
  * For each episode, displays its name, season, number, and air date.
+ * 
+ * Note: You need to pass this view controller a list of all episodes
+ * that you want to search from (this list should be returned from 
+ * a call to [EpisodeManager fetchAll])
  */
 
 #import <UIKit/UIKit.h>
@@ -19,4 +23,12 @@
  * belongs to. This episode will be highlighted (light gray background).
  */
 @property Episode *episode;
+
+/**
+ * Property: episodes
+ * ------------------------------
+ * A list of all episodes we want to search from. This array should come
+ * from a call to [EpisodeManager fetchAll].
+ */
+@property NSArray *episodes;
 @end

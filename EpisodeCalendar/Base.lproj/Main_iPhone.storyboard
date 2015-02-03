@@ -113,7 +113,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LjY-hc-00f">
+                            <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LjY-hc-00f">
                                 <rect key="frame" x="10" y="134" width="301" height="337"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -171,13 +171,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ZYq-LS-8cB" firstAttribute="top" secondItem="m2u-Wq-kdM" secondAttribute="bottom" constant="29" id="Drg-ot-o63"/>
+                            <constraint firstItem="LjY-hc-00f" firstAttribute="top" secondItem="Xyd-F1-uwS" secondAttribute="bottom" constant="2" id="KuJ-zL-vxR"/>
                             <constraint firstAttribute="trailing" secondItem="LjY-hc-00f" secondAttribute="trailing" constant="9" id="O17-wr-M2l"/>
                             <constraint firstItem="HHV-de-LYM" firstAttribute="top" secondItem="m2u-Wq-kdM" secondAttribute="bottom" constant="3" id="Sx6-up-WLE"/>
                             <constraint firstItem="Xyd-F1-uwS" firstAttribute="leading" secondItem="7pM-6g-n8u" secondAttribute="leading" constant="10" id="YV9-gg-twi"/>
                             <constraint firstItem="e2Z-zr-iy1" firstAttribute="top" secondItem="LjY-hc-00f" secondAttribute="bottom" constant="9" id="aHV-p2-beU"/>
                             <constraint firstItem="LjY-hc-00f" firstAttribute="leading" secondItem="7pM-6g-n8u" secondAttribute="leading" constant="10" id="cvg-h7-Bww"/>
-                            <constraint firstItem="LjY-hc-00f" firstAttribute="top" secondItem="ZYq-LS-8cB" secondAttribute="bottom" constant="8" id="eRJ-Nj-OmR"/>
                             <constraint firstAttribute="trailing" secondItem="Xyd-F1-uwS" secondAttribute="trailing" constant="9" id="mC2-rk-fSc"/>
+                            <constraint firstItem="ZYq-LS-8cB" firstAttribute="top" secondItem="Xyd-F1-uwS" secondAttribute="top" constant="-34" id="tzw-67-62Z"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qgs-ya-Smm"/>

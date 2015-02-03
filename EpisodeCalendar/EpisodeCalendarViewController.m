@@ -22,7 +22,10 @@
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 
-/* Label that holds days ("Sun Mon Tues Wed Thurs Fri Sat"), spacing between days needs to be adjusted when orientation changes */
+/* List of all episodes that we'll fetch once and then pass into other EpisodeManager methods */
+@property NSArray *episodes;
+/* Label that holds days ("Sun Mon Tues Wed Thurs Fri Sat"), spacing between days needs to be 
+ adjusted when orientation changes */
 @property (strong, nonatomic) IBOutlet UILabel *daysLabel;
 /* Month we are showing */
 @property (strong, nonatomic) IBOutlet UILabel *monthLabel;
@@ -31,9 +34,10 @@
 /* Collection view of "days" in the month */
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 /* Episodes we need to show for this month */
-@property NSDictionary *episodes;
+@property NSDictionary *thisMonthsEpisodes;
 /* When user selects an episode, store the tableview it was in here so we can deselect it later */
 @property UITableView *selectedTableView;
+
 @end
 
 /* Label of days with spacing adjusted for landscape mode */
@@ -103,6 +107,11 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 {
     [super viewDidLoad];
     
+    /* Fetch all the episodes once */
+    if (!self.episodes) {
+        self.episodes = [EpisodeManager fetchAll];
+    }
+    
     /* Start by showing current date */
     if (!self.dateToDisplay) {
         self.dateToDisplay = [NSDate date];
@@ -128,7 +137,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     NSDate *firstDateNeeded = [self getDateForIndex:0];
     NSInteger numRows = [self numberOfRowsInThisMonth];
     NSDate *lastDateNeeded = [self getDateForIndex:(numRows * 7) - 1];
-    self.episodes = [EpisodeManager fetchAllBetween:firstDateNeeded and:lastDateNeeded];
+    self.thisMonthsEpisodes = [EpisodeManager getAllEpisodesBetween:firstDateNeeded and:lastDateNeeded from:self.episodes];
 
     /* Set up collection view's layout */
     UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
@@ -286,7 +295,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
     
     /* Check if there are episodes for this date */
-    NSArray *arr = [self.episodes objectForKey:dateOnCell];
+    NSArray *arr = [self.thisMonthsEpisodes objectForKey:dateOnCell];
     if (arr) {
         /* Get the cell text. */
         Episode *ep = arr[indexPath.row];
@@ -316,7 +325,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
-    NSArray *arr = [self.episodes objectForKey:dateOnCell];
+    NSArray *arr = [self.thisMonthsEpisodes objectForKey:dateOnCell];
     if (arr) {
         return (arr.count);
     } else {
@@ -330,7 +339,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
-    NSArray *arr = [self.episodes objectForKey:dateOnCell];
+    NSArray *arr = [self.thisMonthsEpisodes objectForKey:dateOnCell];
     if (arr) {
         Episode *ep = arr[indexPath.row];
         NSString *cellText = [NSString stringWithFormat:@"%@ (%dx%d)", ep.show, ep.season, ep.number];
@@ -353,10 +362,11 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
         UITableView *tableView = (UITableView *)sender;
         NSIndexPath *indexPath = [tableView indexPathForSelectedRow];
         NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
-        NSArray *arr = [self.episodes objectForKey:dateOnCell];
+        NSArray *arr = [self.thisMonthsEpisodes objectForKey:dateOnCell];
         Episode *ep = arr[indexPath.row];
-        /* Set destination view controller's episode */
+        /* Set destination view controller's episode and pass it the list of all episodes */
         destViewController.episode = ep;
+        destViewController.episodes = self.episodes;
     }
 }
 

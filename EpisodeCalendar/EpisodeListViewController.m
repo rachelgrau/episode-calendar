@@ -23,10 +23,16 @@
 #import "EpisodeDateUtility.h"
 
 @interface EpisodeListViewController ()
-@property NSDictionary *tvShowsDict; // Dictionary where keys = date strings and values = array of episodes on that date
-@property NSMutableArray *dates; // List of dates that have episodes, in chronological order (newest - oldest)
-@property (strong, nonatomic) IBOutlet UITableView *tableView; // Table view that displays shows
-@property UINavigationController *nvc; // Navigation view controller
+/* List of all episodes that we'll fetch once and then pass into other EpisodeManager methods */
+@property NSArray *episodes;
+/* Dictionary where keys = date strings and values = array of episodes on that date */
+@property NSDictionary *tvShowsDict;
+/* List of dates that have episodes, in chronological order (newest - oldest) */
+@property NSMutableArray *dates;
+/* Table view that displays shows */
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+/* Navigation view controller */
+@property UINavigationController *nvc;
 @end
 
 @implementation EpisodeListViewController
@@ -42,9 +48,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    /* If first time loading, fetch all episodes */
+    if (!self.episodes) {
+        self.episodes = [EpisodeManager fetchAll];
+    }
+    
     /* Fetch episodes and dates */
     self.dates = [[NSMutableArray alloc] init];
-    self.tvShowsDict = [EpisodeManager fetchAllByDate:self.dates];
+    self.tvShowsDict = [EpisodeManager getAllByDate:self.dates fromEpisodes:self.episodes];
     self.nvc = [self navigationController];
 }
 
@@ -77,8 +89,9 @@
          /* Get the selected episode based on index path */
          NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
          Episode *ep = [self getEpisodeFromIndexPath:indexPath];
-         /* Set destination view controller's episode */
+         /* Set destination view controller's episode and pass it our list of episodes */
          destViewController.episode = ep;
+         destViewController.episodes = self.episodes;
      }
  }
 

@@ -15,7 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *showLabel;
 @property (strong, nonatomic) IBOutlet UILabel *seasonLabel;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property NSArray *episodes;
+@property NSArray *episodesToShow;
 @end
 
 @implementation SeasonViewController
@@ -44,7 +44,7 @@
     self.navigationController.navigationBarHidden = NO;
     
     /* Fetch episodes for season & show we are displaying */
-    self.episodes = [EpisodeManager fetchEpisodesFromShow:self.episode.show season:self.episode.season];
+    self.episodesToShow = [EpisodeManager getEpisodesFromShow:self.episode.show season:self.episode.season fromEpisodes:self.episodes];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,7 +63,7 @@
 /* Returns number of rows in a certain section (# of episodes with a certain date) */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.episodes.count;
+    return self.episodesToShow.count;
 }
 
 /* Returns cell that should go at given index path */
@@ -74,7 +74,7 @@
     if (cell == nil) {
         cell = [[EpisodeTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:episodeTableIdentifier];
     }
-    Episode *ep = [self.episodes objectAtIndex:indexPath.row];
+    Episode *ep = [self.episodesToShow objectAtIndex:indexPath.row];
     if (ep.number == self.episode.number) {
         cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
     } else {
