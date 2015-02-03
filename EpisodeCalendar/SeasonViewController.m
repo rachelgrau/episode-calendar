@@ -37,6 +37,7 @@
     self.episodes = [EpisodeManager fetchEpisodesFromShow:self.episode.show season:self.episode.season];
     self.tableView.allowsSelection = NO;
     self.tableView.separatorColor = [UIColor groupTableViewBackgroundColor];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning

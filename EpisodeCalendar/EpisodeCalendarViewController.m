@@ -18,15 +18,17 @@
 #import "Episode.h"
 #import "EpisodeManager.h"
 #import "EpisodeDateUtility.h"
+#import "SeasonViewController.h"
 
 @interface EpisodeCalendarViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *daysLabel;
-
 @property (strong, nonatomic) IBOutlet UILabel *monthLabel; // Month we are showing
 @property (strong, nonatomic) IBOutlet UILabel *yearLabel; // Year we are showing
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView; // Collection view of "days" in month
 @property NSDictionary *episodes; // Episodes we need to show for this month
+@property UITableView *selectedTableView; /* When user selects an episode, store the tableview
+                                             it was in here so we can deselect it later */
 @end
 
 static NSString *landscapeDaysText = @"Sun                       Mon                      Tues                       Wed                      Thurs                       Fri                      Sat";
@@ -65,6 +67,29 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     [self.collectionView reloadData];
 }
 
+/* Adjusts collection view cell sizes and the label that holds days ("Sun Mon Tues" etc) 
+   based on the screen dimensions, which you need to do after an orientation change */
+-(void)adjustForOrientation:(UIInterfaceOrientation)deviceOrientation
+{
+    [self.collectionView reloadData];
+    if (UIInterfaceOrientationIsPortrait(deviceOrientation)) {
+        self.daysLabel.text = portraitDaysText;
+    } else {
+        self.daysLabel.text = landscapeDaysText;
+    }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = YES;
+    [self adjustForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self.selectedTableView deselectRowAtIndexPath:[self.selectedTableView indexPathForSelectedRow] animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -98,7 +123,6 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     /* Set up collection view's layout */
     UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     flowLayout.minimumInteritemSpacing = 0;
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -215,12 +239,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
   subviews. */
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self.collectionView reloadData];
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-        self.daysLabel.text = portraitDaysText;
-    } else {
-        self.daysLabel.text = landscapeDaysText;
-    }
+    [self adjustForOrientation:toInterfaceOrientation];
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -231,6 +250,12 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.selectedTableView = tableView;
+    [self performSegueWithIdentifier:@"toSeasonViewController" sender:tableView];
 }
 
 /* Returns cell that should go at given index path. We need to get the date that this tableView is 
@@ -256,7 +281,6 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
         /* Get the cell text. */
         Episode *ep = arr[indexPath.row];
         NSString *cellText = [NSString stringWithFormat:@"%@ (%dx%d)", ep.show, ep.season, ep.number];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         /* Gray out if it's from last month or next month. */
         if (![EpisodeDateUtility haveSameMonth:self.dateToDisplay date2:dateOnCell]) {
             cell.textLabel.textColor = [UIColor grayColor];
@@ -306,6 +330,24 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
         return height;
     }
     return 0;
+}
+
+#pragma mark prepare for segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"toSeasonViewController"])
+    {
+        SeasonViewController *destViewController = segue.destinationViewController;
+        /* Get the selected episode based on index path */
+        UITableView *tableView = (UITableView *)sender;
+        NSIndexPath *indexPath = [tableView indexPathForSelectedRow];
+        NSDate *dateOnCell = [self getDateForIndex:tableView.tag];
+        NSArray *arr = [self.episodes objectForKey:dateOnCell];
+        Episode *ep = arr[indexPath.row];
+        /* Set destination view controller's episode */
+        destViewController.episode = ep;
+    }
 }
 
 
