@@ -9,9 +9,6 @@ TO DO: iphone version
 TO DO: ipad version
 - If on portrait mode: show something below calendar
   - Shows for selected day?
-- Fetch all shows once at beginning and store them in a dictionary based on date
 - Fix day labels (Sun, Mon, Tues etc)
 - Fix text wrap: depends on cell width
-
-- SeasonVC: don't fetch episodes in viewDidLoad (slow)
 - Labels randomly gray out sometimes
