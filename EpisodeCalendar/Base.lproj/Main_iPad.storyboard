@@ -37,13 +37,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Month" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U3V-rn-zM0">
-                                <rect key="frame" x="0.0" y="54" width="768" height="58"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Year" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U3V-rn-zM0">
+                                <rect key="frame" x="0.0" y="76" width="1066" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="leftArrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="MtM-hx-T16">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="leftArrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="MtM-hx-T16">
                                 <rect key="frame" x="20" y="42" width="28" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
@@ -142,6 +142,8 @@
                             <constraint firstItem="EhG-br-r9k" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="CfA-z0-2yh"/>
                             <constraint firstAttribute="centerX" secondItem="U3V-rn-zM0" secondAttribute="centerX" id="aO2-LN-WHz"/>
                             <constraint firstAttribute="centerX" secondItem="4hV-pr-n3C" secondAttribute="centerX" id="bOH-t9-rKB"/>
+                            <constraint firstItem="MtM-hx-T16" firstAttribute="top" secondItem="4hV-pr-n3C" secondAttribute="bottom" constant="-43" id="ixH-QA-xCq"/>
+                            <constraint firstItem="U3V-rn-zM0" firstAttribute="top" secondItem="4hV-pr-n3C" secondAttribute="bottom" constant="-9" id="pMr-YX-4yQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ZRN-oP-ucJ"/>
