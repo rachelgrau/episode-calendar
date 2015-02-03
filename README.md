@@ -13,4 +13,5 @@ TO DO: ipad version
 - Fix day labels (Sun, Mon, Tues etc)
 - Fix text wrap: depends on cell width
 
--SeasonVC: don't fetch episodes in viewDidLoad (slow)
+- SeasonVC: don't fetch episodes in viewDidLoad (slow)
+- Labels randomly gray out sometimes
