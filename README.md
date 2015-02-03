@@ -13,3 +13,5 @@ TO DO: ipad version
 - Fix day labels (Sun, Mon, Tues etc)
 - Fix text wrap: depends on cell width
 - Commenting
+
+-SeasonVC: don't fetch episodes in viewDidLoad (slow)
