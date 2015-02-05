@@ -12,3 +12,4 @@ TO DO: ipad version
 - Fix day labels (Sun, Mon, Tues etc)
 - Fix text wrap: depends on cell width
 - Highlight today
+- Test on other calendars - e.g. if they start on Monday not Sunday?
