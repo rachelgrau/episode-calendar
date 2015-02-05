@@ -40,10 +40,7 @@
 @property NSDictionary *daysOfWeek;
 @end
 
-/* Label of days with spacing adjusted for landscape mode */
-static NSString *landscapeDaysText = @"Sun                       Mon                      Tues                       Wed                      Thurs                       Fri                      Sat";
-/* Label of days with spacing adjusted for portrait mode */
-static NSString *portraitDaysText = @"Sun               Mon               Tues               Wed               Thurs               Fri               Sat";
+/* CONSTANTS */
 static int DAYS_IN_WEEK = 7;
 static int DAY_LABEL_X_PADDING = 10; // horizontal padding b/t collection view and start of day labels
 
