@@ -10,6 +10,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *episodeContentView;
+@property (strong, nonatomic) IBOutlet UIView *labelBackgroundView;
 @end
 
 @implementation CalendarDayCell
@@ -23,10 +24,21 @@
     return self;
 }
 
+- (void)highlightDateLabel
+{
+    self.labelBackgroundView.backgroundColor = [UIColor lightGrayColor];
+}
+
+- (void)unhighlightDateLabel
+{
+    self.labelBackgroundView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+}
+
 /* If this cell doesn't yet have a tableview, make one and set up its look (white background,
   no separator, scroll enabled. Otherwise just make sure the frame of the tableview is correct. */
 - (void)setTableView
 {
+    self.labelBackgroundView.backgroundColor = [UIColor blueColor];
     CGRect tableViewFrame = self.episodeContentView.frame;
     if (!self.tableView){
         self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame];

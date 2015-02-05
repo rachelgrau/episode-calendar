@@ -75,11 +75,11 @@
 + (NSInteger)getWeekDayOfFirstDayOfMonth:(NSDate *)date;
 
 /**
- * Method: isDate sameDayAsDate
- * Usage: BOOL sameDate = [EpisodeDateUtility isDate:date1 sameDayAsDate:date2];
+ * Method: date isSameDayAsDate
+ * Usage: BOOL sameDate = [EpisodeDateUtility date:date1 isSameDayAsDate:date2];
  * -------------------------------------------------------------------------------
  * Returns YES if the 2 given dates have the same day, month, and year. Returns NO
  * otherwise.
  */
-+ (BOOL)isDate:(NSDate *)date1 sameDayAsDate:(NSDate *)date2;
++ (BOOL)date:(NSDate *)date1 isSameDayAsDate:(NSDate *)date2;
 @end

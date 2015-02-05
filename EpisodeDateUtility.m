@@ -25,18 +25,6 @@
     return [dateFormat stringFromDate:date];
 }
 
-/* Returns YES if date1 and date2 have the same day, month and year. Returns NO otherwise. */
-+ (BOOL)isDate:(NSDate *)date1 sameDayAsDate:(NSDate *)date2 {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components1 = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date1];
-    NSDateComponents *components2 = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date2];
-    
-    if ([components1 year] != [components2 year]) return NO;
-    else if ([components1 month] != [components2 month]) return NO;
-    else if ([components1 day] != [components2 day]) return NO;
-    else return YES;
-}
-
 /* Given a date, return a string in the form "MMM. d'st'". For example, "Jan. 28th," "Feb. 1st" or "Mar. 3rd" */
 + (NSString *)lexicalStringFromDate:(NSDate *)date
 {
@@ -104,6 +92,18 @@
     NSInteger weekdayOfFirst = [comps2 weekday];
     if (weekdayOfFirst == 8) weekdayOfFirst = 1;
     return weekdayOfFirst;
+}
+
+/* Returns true YES and only if |date1| and |date2| occur on the same day, month, and year. Returns NO otherwise. */
++ (BOOL)date:(NSDate *)date1 isSameDayAsDate:(NSDate *)date2
+{
+    NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps1 = [cal components:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit ) fromDate:date1];
+    NSDateComponents *comps2 = [cal components:(NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit ) fromDate:date2];
+    if ([comps1 day] != [comps2 day]) return NO;
+    else if ([comps1 month] != [comps2 month]) return NO;
+    else if ([comps1 year] != [comps2 year]) return NO;
+    else return YES;
 }
 
 @end

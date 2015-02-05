@@ -44,9 +44,28 @@
 /**
  * Method: setTableView
  * Usage: [cell setTableView]
- * ----------------------------------------------------------------------
+ * --------------------------
  * Sets up and displays a table view for this cell, if one wasn't already set up.
  */
 - (void)setTableView;
+
+/**
+ * Method: highlightDateLabel
+ * Usage: [cell highlightDateLabel]
+ * --------------------------------
+ * Highlights the date label of this cell to lightGrayColor. Useful if you want
+ * to highlight today's date.
+ */
+- (void)highlightDateLabel;
+
+/**
+ * Method: unhighlightDateLabel
+ * Usage: [cell highlightDateLabel]
+ * --------------------------------
+ * Changes the date label of this cell back to groupTableViewBackgroundColor. Call this on 
+ * cells that shouldn't be highlighted (since they get reused, a cell could unexpectedly
+ * appear highlighted if you don't call this function).
+ */
+- (void)unhighlightDateLabel;
 
 @end

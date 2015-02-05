@@ -119,6 +119,7 @@
                                             <outlet property="backgroundView" destination="evd-3p-lB5" id="gEU-Xg-AgV"/>
                                             <outlet property="dateLabel" destination="iks-zS-wN7" id="NRd-xe-ziu"/>
                                             <outlet property="episodeContentView" destination="fCw-oL-pkm" id="wvS-hW-Zht"/>
+                                            <outlet property="labelBackgroundView" destination="t2I-vm-kzM" id="bz2-6Z-yee"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

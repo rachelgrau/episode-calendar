@@ -38,6 +38,8 @@
 @property NSMutableArray *dayLabels;
 /* Maps numbers to days of week abbreviations (0 = "Sun", 1 = "Mon", etc) */
 @property NSDictionary *daysOfWeek;
+/* Today's date */
+@property NSDate *today;
 @end
 
 /* CONSTANTS */
@@ -146,9 +148,13 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
         self.episodes = [EpisodeManager fetchAll];
     }
     
-    /* Start by showing current date */
+    self.today = [NSDate date];
+    
+    /* If first time loading, show today's date, otherwise we should have
+       a date set (e.g. by having clicked on left arrow thus setting the
+       date to the month before) */
     if (!self.dateToDisplay) {
-        self.dateToDisplay = [NSDate date];
+        self.dateToDisplay = self.today;
     }
     
     /* Set up month label */
@@ -159,7 +165,8 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     [self.monthLabel setFont:[UIFont systemFontOfSize:22]];
     
     /* Set up year label */
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.dateToDisplay];
+    NSCalendar *cal=[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [cal components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:self.dateToDisplay];
     NSString *yearStr = [NSString stringWithFormat:@"%ld", (long)[components year]];
     self.yearLabel.text = yearStr;
     self.yearLabel.textAlignment = NSTextAlignmentCenter;
@@ -258,6 +265,11 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     /* Pass in indexPath.row as index, so we can figure out which date this tableview
      is on at any point by looking at its index. */
     [cell setTableViewDataSourceDelegate:self index:indexPath.row];
+    if ([EpisodeDateUtility date:dateOnCell isSameDayAsDate:self.today]) {
+        [cell highlightDateLabel];
+    } else {
+        [cell unhighlightDateLabel];
+    }
     return cell;
 }
 
