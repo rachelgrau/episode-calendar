@@ -24,9 +24,6 @@
 
 /* List of all episodes that we'll fetch once and then pass into other EpisodeManager methods */
 @property NSArray *episodes;
-/* Label that holds days ("Sun Mon Tues Wed Thurs Fri Sat"), spacing between days needs to be 
- adjusted when orientation changes */
-@property (strong, nonatomic) IBOutlet UILabel *daysLabel;
 /* Month we are showing */
 @property (strong, nonatomic) IBOutlet UILabel *monthLabel;
 /* Year we are showing */
@@ -37,13 +34,18 @@
 @property NSDictionary *thisMonthsEpisodes;
 /* When user selects an episode, store the tableview it was in here so we can deselect it later */
 @property UITableView *selectedTableView;
-
+/* Array of UILables that hold the days of the week */
+@property NSMutableArray *dayLabels;
+/* Maps numbers to days of week abbreviations (0 = "Sun", 1 = "Mon", etc) */
+@property NSDictionary *daysOfWeek;
 @end
 
 /* Label of days with spacing adjusted for landscape mode */
 static NSString *landscapeDaysText = @"Sun                       Mon                      Tues                       Wed                      Thurs                       Fri                      Sat";
 /* Label of days with spacing adjusted for portrait mode */
 static NSString *portraitDaysText = @"Sun               Mon               Tues               Wed               Thurs               Fri               Sat";
+static int DAYS_IN_WEEK = 7;
+static int DAY_LABEL_X_PADDING = 10; // horizontal padding b/t collection view and start of day labels
 
 @implementation EpisodeCalendarViewController
 
@@ -83,11 +85,45 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 -(void)adjustForOrientation:(UIInterfaceOrientation)deviceOrientation
 {
     [self.collectionView reloadData];
-    if (UIInterfaceOrientationIsPortrait(deviceOrientation)) {
-        self.daysLabel.text = portraitDaysText;
-    } else {
-        self.daysLabel.text = landscapeDaysText;
+}
+
+/* Sets up the day labels "Sun" "Mon" "Tues" etc...If |firstTime| is YES, then creates
+   the labels from scratch and store them in self.dayLabels. If |firstTime| is NO,
+   then just go through existing self.dayLabels and update their positioning to go with
+   the current screen orientation and size. */
+-(void)setUpDayLabels {
+    CGRect frame = self.collectionView.frame;
+    frame.origin.x += DAY_LABEL_X_PADDING; // add a little padding
+    CGFloat width = frame.size.width;
+    CGFloat cellWidth = width/DAYS_IN_WEEK;
+    BOOL firstTime = NO;
+    if (!self.dayLabels) {
+        firstTime = YES;
+        self.dayLabels = [[NSMutableArray alloc] init];
     }
+    for (int i=0; i<DAYS_IN_WEEK; i++) {
+        UILabel *cur;
+        if (firstTime) {
+            cur = [[UILabel alloc] init];
+            [self.dayLabels addObject:cur];
+        } else {
+            cur = [self.dayLabels objectAtIndex:i];
+        }
+        /* Set the day name (0 = "Sun" 1 = "Mon" etc) */
+        cur.text = [self.daysOfWeek objectForKey:[NSNumber numberWithInt:i]];
+        [cur sizeToFit];
+        /* Update positioning based on current cellWidth */
+        CGRect labelFrame = cur.frame;
+        labelFrame.origin.y = frame.origin.y - labelFrame.size.height;
+        labelFrame.origin.x = frame.origin.x + (cellWidth * i);
+        cur.frame = labelFrame;
+        [self.view addSubview:cur];
+    }
+}
+
+/* Once we rotated orientations, make sure we adjust the day labels' x positioning */
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self setUpDayLabels];
 }
 
 /* Hide the nav bar and adjust layout for orientation  */
@@ -97,10 +133,11 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     [self adjustForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
 }
 
-/* Deselect table cell when we come back from season view controller */
+/* Deselect table cell when we come back from season view controller & adjust day labels */
 -(void)viewDidAppear:(BOOL)animated
 {
     [self.selectedTableView deselectRowAtIndexPath:[self.selectedTableView indexPathForSelectedRow] animated:YES];
+    [self setUpDayLabels];
 }
 
 - (void)viewDidLoad
@@ -136,12 +173,16 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
      last date we need to display (which might be from the next month) */
     NSDate *firstDateNeeded = [self getDateForIndex:0];
     NSInteger numRows = [self numberOfRowsInThisMonth];
-    NSDate *lastDateNeeded = [self getDateForIndex:(numRows * 7) - 1];
+    NSDate *lastDateNeeded = [self getDateForIndex:(numRows * DAYS_IN_WEEK) - 1];
     self.thisMonthsEpisodes = [EpisodeManager getAllEpisodesBetween:firstDateNeeded and:lastDateNeeded from:self.episodes];
 
     /* Set up collection view's layout */
     UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     flowLayout.minimumInteritemSpacing = 0;
+    
+    /* Set up day labels */
+    self.daysOfWeek = @{@0: @"Sun", @1: @"Mon", @2: @"Tue", @3: @"Wed", @4: @"Thu", @5: @"Fri", @6: @"Sat"};
+    [self setUpDayLabels];
 }
 
 - (void)didReceiveMemoryWarning
@@ -176,8 +217,8 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
     NSUInteger numberOfDaysInMonth = rng.length;
     
     /* Return divide # of days to display by 7 and add an extra week if there's a remainder */
-    NSInteger numRows = (weekdayOfFirst + numberOfDaysInMonth - 1)/7;
-    if (((weekdayOfFirst + numberOfDaysInMonth - 1) % 7) > 0){
+    NSInteger numRows = (weekdayOfFirst + numberOfDaysInMonth - 1)/DAYS_IN_WEEK;
+    if (((weekdayOfFirst + numberOfDaysInMonth - 1) % DAYS_IN_WEEK) > 0){
         numRows++;
     }
     return numRows;
@@ -189,7 +230,7 @@ static int COLLECTION_VIEW_PADDING = 9; // Padding on sides of collection view
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
     NSInteger numRows = [self numberOfRowsInThisMonth];
-    return numRows * 7;
+    return numRows * DAYS_IN_WEEK;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView

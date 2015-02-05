@@ -127,12 +127,6 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="cK2-Al-AUb"/>
                                 </connections>
                             </collectionView>
-                            <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sun               Mon               Tues               Wed               Thurs               Fri               Sat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PIF-gz-J31">
-                                <rect key="frame" x="24" y="106" width="1034" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -150,7 +144,6 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="EhG-br-r9k" id="mES-hd-cDW"/>
-                        <outlet property="daysLabel" destination="PIF-gz-J31" id="Dlk-gt-pdB"/>
                         <outlet property="monthLabel" destination="4hV-pr-n3C" id="vf0-Q6-JXp"/>
                         <outlet property="yearLabel" destination="U3V-rn-zM0" id="bLq-Ny-wy0"/>
                         <segue destination="SfG-DO-36l" kind="push" identifier="toSeasonViewController" id="Ppi-qj-4TE"/>
