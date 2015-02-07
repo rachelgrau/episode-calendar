@@ -1,10 +1,8 @@
-//
-//  EpisodeManager.m
-//  EpisodeCalendar
-//
-//  Created by Rachel on 2/1/15.
-//  Copyright (c) 2015 Rachel. All rights reserved.
-//
+/**
+ * File: EpisodeManager.m
+ * -------------------------
+ * Implementation of the EpisodeManager methods.
+ */
 
 #import "EpisodeManager.h"
 #import "Episode.h"
